@@ -1,0 +1,11 @@
+/**
+ * @version 0.0.01
+ * @author Casey Tuchscherer
+ *
+ */
+tile.essencecreeper.name=Creeper Essence
+item.essencecreeperbucket.name=Bucket of Creeper Essence
+item.mobwand.name=Mob Wand
+tile.essenceenderman.name=Enderman Essence
+item.essenceendermanbucket.name=Bucket of Enderman Essence
+item.mobwand.name=Mob Wand

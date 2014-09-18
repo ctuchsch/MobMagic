@@ -1,0 +1,20 @@
+/**
+ * @version 0.0.01
+ * @author Casey T. Tuchscherer -Open source.
+ *
+ * In-game info for project: Mob Magic.
+ */
+[ { "modid"        : "mobmagic"
+  , "name"         : "Mob Magic"
+  , "description"  : "New minecraft mod"
+  , "version"      : "0.0.01"
+  , "mcversion"    : "1.7.10"
+  , "url"          : ""
+  , "updateUrl"    : ""
+  , "authorList"   : ["Casey T. Tuchscherer","Jared Darr"]
+  , "credits"      : ""
+  , "logoFile"     : ""
+  , "screenshots"  : []
+  , "dependencies" : ["Forge10.13.0.1180"]
+  }
+]
