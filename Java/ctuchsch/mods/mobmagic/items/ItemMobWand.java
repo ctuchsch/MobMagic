@@ -3,8 +3,8 @@ package ctuchsch.mods.mobmagic.items;
 import org.lwjgl.input.Keyboard;
 
 import ctuchsch.mods.mobmagic.MobMagic;
-import ctuchsch.mods.mobmagic.Entity.EntityProjectileCreeper;
-import ctuchsch.mods.mobmagic.Entity.EntityProjectileEnderman;
+import ctuchsch.mods.mobmagic.entity.EntityProjectileCreeper;
+import ctuchsch.mods.mobmagic.entity.EntityProjectileEnderman;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.projectile.EntitySnowball;

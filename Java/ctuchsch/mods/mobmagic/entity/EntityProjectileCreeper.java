@@ -1,4 +1,4 @@
-package ctuchsch.mods.mobmagic.Entity;
+package ctuchsch.mods.mobmagic.entity;
 
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.EntityLivingBase;

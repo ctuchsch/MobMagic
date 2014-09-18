@@ -2,8 +2,8 @@ package ctuchsch.mods.mobmagic;
 
 import net.minecraft.client.renderer.entity.RenderSnowball;
 import cpw.mods.fml.client.registry.RenderingRegistry;
-import ctuchsch.mods.mobmagic.Entity.EntityProjectileCreeper;
-import ctuchsch.mods.mobmagic.Entity.EntityProjectileEnderman;
+import ctuchsch.mods.mobmagic.entity.EntityProjectileCreeper;
+import ctuchsch.mods.mobmagic.entity.EntityProjectileEnderman;
 
 public class ClientProxy extends CommonProxy {
 	@Override
