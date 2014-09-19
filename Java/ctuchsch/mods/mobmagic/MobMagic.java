@@ -1,5 +1,6 @@
 package ctuchsch.mods.mobmagic;
 
+import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.entity.RenderFireball;
 import net.minecraft.client.renderer.entity.RenderSnowball;
@@ -23,6 +24,7 @@ import cpw.mods.fml.common.registry.EntityRegistry;
 import cpw.mods.fml.common.registry.GameRegistry;
 import ctuchsch.mods.mobmagic.blocks.BlockEssenceCreeper;
 import ctuchsch.mods.mobmagic.blocks.BlockEssenceEnderman;
+import ctuchsch.mods.mobmagic.blocks.BlockEssenceTank;
 import ctuchsch.mods.mobmagic.entity.EntityProjectileCreeper;
 import ctuchsch.mods.mobmagic.entity.EntityProjectileEnderman;
 import ctuchsch.mods.mobmagic.handlers.BucketHandler;
@@ -31,6 +33,7 @@ import ctuchsch.mods.mobmagic.items.ItemEssenceCreeperProjectile;
 import ctuchsch.mods.mobmagic.items.ItemEssenceEndermanBucket;
 import ctuchsch.mods.mobmagic.items.ItemEssenceEndermanProjectile;
 import ctuchsch.mods.mobmagic.items.ItemMobWand;
+import ctuchsch.mods.mobmagic.tileentities.TileEssenceTank;
 
 @Mod(modid = MobMagic.MODID, version = MobMagic.VERSION)
 public class MobMagic {
@@ -56,6 +59,7 @@ public class MobMagic {
 	public static Item bucketEssenceCreeper;
 	public static Fluid essenceEnderman;
 	public static BlockEssenceEnderman blockEssenceEnderman;
+	public static Block blockEssenceTank;
 	public static Item bucketEssenceEnderman;
 	public static Item mobWand;
 	public static Item entityProjectileCreeper;
@@ -83,6 +87,7 @@ public class MobMagic {
 	private void createAndRegisterEntities() {
 		EntityRegistry.registerModEntity(EntityProjectileCreeper.class, "ProjectileEssenceCreeper", ENTITY_INDEX_ESSENCE_CREEPER, this.instance, 64, 10, true);
 		EntityRegistry.registerModEntity(EntityProjectileEnderman.class, "ProjectileEssenceEnderman", ENTITY_INDEX_ESSENCE_ENDERMAN, this.instance, 64, 10, true);
+		GameRegistry.registerTileEntity(TileEssenceTank.class, "tileessencetank");
 		
 	}
 
@@ -119,6 +124,9 @@ public class MobMagic {
 		blockEssenceEnderman = new BlockEssenceEnderman(essenceEnderman, Material.water);
 		blockEssenceEnderman.setBlockName("essenceenderman");
 		GameRegistry.registerBlock(blockEssenceEnderman,"essenceenderman");
+		
+		blockEssenceTank = new BlockEssenceTank().setBlockName("blockessencetank");
+		GameRegistry.registerBlock(blockEssenceTank, "blockessencetank");
 		
 	}
 

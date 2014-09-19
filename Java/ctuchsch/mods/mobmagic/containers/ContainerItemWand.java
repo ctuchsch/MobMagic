@@ -1,9 +1,9 @@
 package ctuchsch.mods.mobmagic.containers;
 
-import ctuchsch.mods.mobmagic.items.ItemEssenceCreeperBucket;
-import ctuchsch.mods.mobmagic.items.ItemEssenceEndermanBucket;
+import ctuchsch.mods.mobmagic.blocks.BlockEssenceTank;
 import ctuchsch.mods.mobmagic.items.ItemInventoryWand;
 import ctuchsch.mods.mobmagic.slots.WandSlot;
+import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;
@@ -62,7 +62,8 @@ public class ContainerItemWand extends Container {
 			// Item is in inventory / hotbar, try to place in custom inventory
 			else {
 				// item is in player's inventory, but not in action bar
-				if (itemstack1.getItem() instanceof ItemEssenceCreeperBucket || itemstack1.getItem() instanceof ItemEssenceEndermanBucket) {
+				Block block = Block.getBlockFromItem(itemstack1.getItem());
+				if (block instanceof BlockEssenceTank) {
 					if (!this.mergeItemStack(itemstack1, 0, ItemInventoryWand.INV_SIZE, false))
 						return null;
 				} else if (par2 >= INV_START && par2 < HOTBAR_START) {
