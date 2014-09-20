@@ -31,7 +31,6 @@ public class ClientProxy extends CommonProxy {
 
 	@SubscribeEvent
 	public void textureHook(TextureStitchEvent.Pre event) {
-		System.out.println("called event");
 		if (event.map.getTextureType() == 0) {
 			Icons.essenceEndermanFlowing = event.map.registerIcon(MobMagic.MODID + ":essenceEndermanFlowing");
 			Icons.essenceEndermanStill = event.map.registerIcon(MobMagic.MODID + ":essenceEndermanStill");

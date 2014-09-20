@@ -35,7 +35,6 @@ public class BlockEssenceCreeper extends BlockFluidClassic {
 	public void registerBlockIcons(IIconRegister register) {
         stillIcon = register.registerIcon(MobMagic.MODID+":essenceCreeperStill");
         flowingIcon = register.registerIcon(MobMagic.MODID+":essenceCreeperFlowing");
-        MobMagic.essenceCreeper.setIcons(stillIcon, flowingIcon);
 	}
 	
 	@Override

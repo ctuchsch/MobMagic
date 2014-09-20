@@ -1,6 +1,7 @@
 package ctuchsch.mods.mobmagic.renderers;
 
 import org.lwjgl.opengl.GL11;
+import org.lwjgl.opengl.GL40;
 
 import ctuchsch.mods.mobmagic.MobMagic;
 import ctuchsch.mods.mobmagic.models.ModelTankEssence;
@@ -27,11 +28,9 @@ public class RendererEssenceTank extends TileEntitySpecialRenderer {
 
 	private final ModelTankEssence model;
 	private final ResourceLocation tank;
-	private final ResourceLocation liquid;
 	public RendererEssenceTank() {
 		this.model = new ModelTankEssence();
-		this.tank = new ResourceLocation(MobMagic.MODID + ":textures/models/TankEssence.png");
-		this.liquid = new ResourceLocation(MobMagic.MODID + ":textures/blocks/essenceCreeperStill.png");
+		this.tank = new ResourceLocation(MobMagic.MODID + ":textures/models/TankEssence.png");	
 	}
 
 	private void adjustRotatePivotViaMeta(World world, int x, int y, int z) {
@@ -43,10 +42,9 @@ public class RendererEssenceTank extends TileEntitySpecialRenderer {
 
 	@Override
 	public void renderTileEntityAt(TileEntity te, double x, double y, double z, float ptt) {
-		te.getWorldObj().scheduleBlockUpdate(te.xCoord, te.yCoord, te.zCoord, MobMagic.blockEssenceTank, 10);
+		//te.getWorldObj().scheduleBlockUpdate(te.xCoord, te.yCoord, te.zCoord, MobMagic.blockEssenceTank, 10);
 		if (te instanceof TileEssenceTank) {
 			TileEssenceTank myEntity = (TileEssenceTank) te;
-
 			// The PushMatrix tells the renderer to "start" doing something.
 			GL11.glPushMatrix();
 			// This is setting the initial location.
@@ -89,7 +87,6 @@ public class RendererEssenceTank extends TileEntitySpecialRenderer {
 			
 			FluidStack fluid = te.tank.getFluid();
 			if (fluid.getFluid().getIcon() == null) {
-				System.out.println("DAMN");
 				return;
 			}
 			IIcon texture = fluid.getFluid().getIcon();
@@ -105,8 +102,6 @@ public class RendererEssenceTank extends TileEntitySpecialRenderer {
 				bindTexture(TextureMap.locationBlocksTexture);
 				color = fluid.getFluid().getColor();
 			}
-		//	Minecraft.getMinecraft().renderEngine.bindTexture(new ResourceLocation(MobMagic.MODID
-			//		+ ":textures/blocks/essenceCreeperStill.png"));
 			t.startDrawingQuads();
 
 			// front
