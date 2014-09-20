@@ -24,6 +24,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.IIcon;
 import net.minecraft.util.MathHelper;
+import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.fluids.FluidContainerRegistry;
 import net.minecraftforge.fluids.FluidStack;
@@ -50,44 +51,11 @@ public class BlockEssenceTank extends BlockContainer {
 	@SideOnly(Side.CLIENT)
 	@Override
 	public void registerBlockIcons(IIconRegister iconRegister) {
-		this.blockIcon = iconRegister.registerIcon(MobMagic.MODID + ":essenceTank_side");
-		this.iconFront = iconRegister.registerIcon(MobMagic.MODID + ":essenceTank_front");
-		this.iconTop = iconRegister.registerIcon(MobMagic.MODID + ":essenceTank_top");
-	}
-
-	@SideOnly(Side.CLIENT)
-	@Override
-	public IIcon getIcon(int side, int metadata) {
-		if (metadata == 0 && side == 3)
-			return this.iconFront;
-		if (side == 1 || side == 0)
-			return this.iconTop;
-		if (side != metadata)
-			return this.blockIcon;
-		else
-			return this.iconFront;
+		this.blockIcon = iconRegister.registerIcon(MobMagic.MODID + ":essenceTank_front");
 	}
 
 	@Override
 	public void onBlockPlacedBy(World world, int x, int y, int z, EntityLivingBase entity, ItemStack itemStack) {
-		int l = MathHelper.floor_double((double) (entity.rotationYaw * 4.0F / 360.0F) + 0.5D) & 3;
-
-		if (l == 0) {
-			world.setBlockMetadataWithNotify(x, y, z, 2, 2);
-		}
-
-		if (l == 1) {
-			world.setBlockMetadataWithNotify(x, y, z, 5, 2);
-		}
-
-		if (l == 2) {
-			world.setBlockMetadataWithNotify(x, y, z, 3, 2);
-		}
-
-		if (l == 3) {
-			world.setBlockMetadataWithNotify(x, y, z, 4, 2);
-		}
-
 		TileEntity tile = world.getTileEntity(x, y, z);
 		if (tile != null && itemStack.hasTagCompound()) {
 			if (tile instanceof TileEssenceTank) {
@@ -103,10 +71,17 @@ public class BlockEssenceTank extends BlockContainer {
 		TileEntity entity = world.getTileEntity(x, y, z);
 		if (entity != null) {
 			if (entity instanceof TileEssenceTank) {
-				System.out.println(((TileEssenceTank) entity).tank.getFluidAmount() + " " + world.isRemote);
+				TileEssenceTank te = (TileEssenceTank) entity;
+				System.out.println(te.tank.getFluidAmount() + " " + world.isRemote);
 				ItemStack usedItem = player.inventory.getCurrentItem();
 				if (usedItem != null)
 					return tryUseFluidContainer(world, player, usedItem, (TileEssenceTank) entity);
+				else {
+					if (player.isSneaking()) {
+						te.tank.drain(te.tank.getCapacity(), true);
+						return true;
+					}
+				}
 			}
 		}
 		return false;
@@ -139,7 +114,7 @@ public class BlockEssenceTank extends BlockContainer {
 	private boolean tryEmptyItem(World world, EntityPlayer player, ItemStack usedItem, TileEssenceTank tank) {
 		FluidStack containedFluid = FluidContainerRegistry.getFluidForFilledItem(usedItem);
 		if (containedFluid != null) {
-			int qty = tank.tank.fill(containedFluid, true);			
+			int qty = tank.tank.fill(containedFluid, true);
 			if (qty != 0 && !player.capabilities.isCreativeMode) {
 				player.inventory.setInventorySlotContents(player.inventory.currentItem, ItemUtils.consumeItem(usedItem));
 			}
@@ -155,12 +130,6 @@ public class BlockEssenceTank extends BlockContainer {
 	}
 
 	@Override
-	public void onBlockAdded(World world, int x, int y, int z) {
-		super.onBlockAdded(world, x, y, z);
-		this.setDefaultDirection(world, x, y, z);
-	}
-
-	@Override
 	public boolean removedByPlayer(World world, EntityPlayer player, int x, int y, int z, boolean willHarvest) {
 		if (willHarvest && !player.capabilities.isCreativeMode) {
 			final TileEntity te = world.getTileEntity(x, y, z);
@@ -172,10 +141,12 @@ public class BlockEssenceTank extends BlockContainer {
 					if (te instanceof TileEssenceTank) {
 						TileEssenceTank myTank = (TileEssenceTank) te;
 						ItemStack item = new ItemStack(MobMagic.blockEssenceTank);
-						if (!item.hasTagCompound()) {
-							item.setTagCompound(new NBTTagCompound());
+						if (myTank.tank.getCapacity() > 0) {
+							if (!item.hasTagCompound()) {
+								item.setTagCompound(new NBTTagCompound());
+							}
+							myTank.tank.writeToNBT(item.getTagCompound());
 						}
-						myTank.tank.writeToNBT(item.getTagCompound());
 						dropBlockAsItem(world, x, y, z, item);
 					}
 				}
@@ -184,36 +155,26 @@ public class BlockEssenceTank extends BlockContainer {
 		return super.removedByPlayer(world, player, x, y, z, willHarvest);
 	}
 
-	private void setDefaultDirection(World world, int x, int y, int z) {
-		if (!world.isRemote) {
-			Block l = world.getBlock(x, y, z - 1);
-			Block il = world.getBlock(x, y, z + 1);
-			;
-			Block jl = world.getBlock(x - 1, y, z);
-			;
-			Block kl = world.getBlock(x + 1, y, z);
-			;
+	@Override
+	public int getRenderType() {
+		return -1;
+	}
 
-			byte b0 = 3;
+	@Override
+	public boolean isOpaqueCube() {
+		return false;
+	}
 
-			if (l.func_149730_j() && !il.func_149730_j()) {
-				b0 = 3;
-			}
+	@Override
+	public boolean renderAsNormalBlock() {
+		return false;
+	}
 
-			if (il.func_149730_j() && !l.func_149730_j()) {
-				b0 = 2;
-			}
-
-			if (jl.func_149730_j() && !kl.func_149730_j()) {
-				b0 = 5;
-			}
-
-			if (kl.func_149730_j() && !jl.func_149730_j()) {
-				b0 = 4;
-			}
-
-			world.setBlockMetadataWithNotify(x, y, z, b0, 2);
-		}
+	@Override
+	@SideOnly(Side.CLIENT)
+	public boolean shouldSideBeRendered(IBlockAccess p_149646_1_, int p_149646_2_, int p_149646_3_, int p_149646_4_,
+			int p_149646_5_) {
+		return true;
 	}
 
 }

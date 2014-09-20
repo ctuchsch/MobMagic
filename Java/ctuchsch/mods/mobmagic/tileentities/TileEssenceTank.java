@@ -48,4 +48,8 @@ public class TileEssenceTank extends TileEntity {
 	public void onDataPacket(NetworkManager net, S35PacketUpdateTileEntity packet) {
 		readFromNBT(packet.func_148857_g());
 	}
+	
+	public double getScaledFluidLevel(int segments) {
+		return tank.getFluidAmount() * segments / TANK_SIZE;
+	}
 }

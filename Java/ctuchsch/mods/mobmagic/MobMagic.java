@@ -95,6 +95,7 @@ public class MobMagic {
 		BucketHandler.INSTANCE.buckets.put(blockEssenceCreeper, bucketEssenceCreeper);
 		BucketHandler.INSTANCE.buckets.put(blockEssenceEnderman, bucketEssenceEnderman);
 		MinecraftForge.EVENT_BUS.register(BucketHandler.INSTANCE);
+		MinecraftForge.EVENT_BUS.register(proxy);
 	}
 
 	private void createAndRegisterItems() {

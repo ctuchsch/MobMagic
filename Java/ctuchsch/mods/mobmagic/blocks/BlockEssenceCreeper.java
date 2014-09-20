@@ -11,13 +11,14 @@ import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.fluids.BlockFluidClassic;
 import net.minecraftforge.fluids.Fluid;
+import net.minecraftforge.fluids.FluidRegistry;
 
 public class BlockEssenceCreeper extends BlockFluidClassic {
 	
 	  @SideOnly(Side.CLIENT)
       protected IIcon stillIcon;
       @SideOnly(Side.CLIENT)
-      protected IIcon flowingIcon;
+      protected IIcon flowingIcon;     
 
 	public BlockEssenceCreeper(Fluid fluid, Material material) {
 		super(fluid, material);
@@ -34,6 +35,7 @@ public class BlockEssenceCreeper extends BlockFluidClassic {
 	public void registerBlockIcons(IIconRegister register) {
         stillIcon = register.registerIcon(MobMagic.MODID+":essenceCreeperStill");
         flowingIcon = register.registerIcon(MobMagic.MODID+":essenceCreeperFlowing");
+        MobMagic.essenceCreeper.setIcons(stillIcon, flowingIcon);
 	}
 	
 	@Override
