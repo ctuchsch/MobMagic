@@ -22,14 +22,11 @@ import cpw.mods.fml.common.registry.GameRegistry;
 import ctuchsch.mods.mobmagic.blocks.BlockEssenceCreeper;
 import ctuchsch.mods.mobmagic.blocks.BlockEssenceEnderman;
 import ctuchsch.mods.mobmagic.blocks.BlockEssenceTank;
-<<<<<<< HEAD
 import ctuchsch.mods.mobmagic.blocks.BlockEssenciteBlock;
 import ctuchsch.mods.mobmagic.blocks.BlockEssenciteOre;
 import ctuchsch.mods.mobmagic.blocks.BlockFossilOre;
 import ctuchsch.mods.mobmagic.blocks.BlockStarshineOre;
-=======
 import ctuchsch.mods.mobmagic.blocks.BlockToolCharger;
->>>>>>> origin/master
 import ctuchsch.mods.mobmagic.entity.EntityProjectileCreeper;
 import ctuchsch.mods.mobmagic.entity.EntityProjectileEnderman;
 import ctuchsch.mods.mobmagic.handlers.BucketHandler;
@@ -72,17 +69,16 @@ public class MobMagic {
 	public static Block blockEssenciteBlock;
 	public static Block blockFossilOre;
 	public static Block blockStarshineOre;
+	public static Block blockToolCharger;
 	public static Item bucketEssenceEnderman;
 	public static Item mobWand;
 	public static Item entityProjectileCreeper;
 	public static Item itemEssenceCreeperProjectile;
 	public static Item itemEssenceEndermanProjectile;
-<<<<<<< HEAD
 	public static Item itemStarshineCrystal;
 	public static Item itemFossil;
-=======
-	public static Block blockToolCharger;
->>>>>>> origin/master
+
+
 	
 	@EventHandler
 	public void preInit(FMLPreInitializationEvent event) {
@@ -154,7 +150,6 @@ public class MobMagic {
 		blockEssenceTank = new BlockEssenceTank().setBlockName("blockessencetank");
 		GameRegistry.registerBlock(blockEssenceTank, "blockessencetank");
 		
-<<<<<<< HEAD
 		blockEssenciteOre = new BlockEssenciteOre().setBlockName("blockessenciteore").setBlockTextureName(this.MODID + ":blockEssenciteOre");
 		GameRegistry.registerBlock(blockEssenciteOre, "blockessenciteore");
 		
@@ -167,10 +162,9 @@ public class MobMagic {
 		blockEssenciteBlock = new BlockEssenciteBlock().setBlockName("blockessenciteblock").setBlockTextureName(this.MODID + ":blockEssenciteBlock");
 		GameRegistry.registerBlock(blockEssenciteBlock, "blockessenciteblock");
 		
-=======
 		blockToolCharger = new BlockToolCharger().setBlockName("blocktoolcharger");
 		GameRegistry.registerBlock(blockToolCharger, "blocktoolcharger");
->>>>>>> origin/master
+
 		
 	}
 
