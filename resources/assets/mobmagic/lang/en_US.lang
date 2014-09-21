@@ -1,11 +1,24 @@
 /**
  * @version 0.0.01
  * @author Casey Tuchscherer
+ * @author Jared Darr
  *
  */
+ 
+//Blocks
+tile.blockfossilore.name=Fossil Ore
+tile.blockessenciteore.name=Essencite Ore
+tile.blockstarshineore.name=Starshine Ore
+tile.blockessenciteblock.name=Block of Essencite
 tile.essencecreeper.name=Creeper Essence
+tile.essenceenderman.name=Enderman Essence
+tile.blockessencetank.name= Essence Tank 
+
+//Items
 item.essencecreeperbucket.name=Bucket of Creeper Essence
 item.mobwand.name=Mob Wand
-tile.essenceenderman.name=Enderman Essence
 item.essenceendermanbucket.name=Bucket of Enderman Essence
 item.mobwand.name=Mob Wand
+item.starshinecrystal.name=Starshine Crystal
+item.fossil.name=Fossil
+

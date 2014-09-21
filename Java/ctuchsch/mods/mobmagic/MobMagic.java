@@ -2,8 +2,6 @@ package ctuchsch.mods.mobmagic;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
-import net.minecraft.client.renderer.entity.RenderFireball;
-import net.minecraft.client.renderer.entity.RenderSnowball;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -11,7 +9,6 @@ import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidContainerRegistry;
 import net.minecraftforge.fluids.FluidRegistry;
-import cpw.mods.fml.client.registry.RenderingRegistry;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;
 import cpw.mods.fml.common.Mod.Instance;
@@ -25,6 +22,10 @@ import cpw.mods.fml.common.registry.GameRegistry;
 import ctuchsch.mods.mobmagic.blocks.BlockEssenceCreeper;
 import ctuchsch.mods.mobmagic.blocks.BlockEssenceEnderman;
 import ctuchsch.mods.mobmagic.blocks.BlockEssenceTank;
+import ctuchsch.mods.mobmagic.blocks.BlockEssenciteBlock;
+import ctuchsch.mods.mobmagic.blocks.BlockEssenciteOre;
+import ctuchsch.mods.mobmagic.blocks.BlockFossilOre;
+import ctuchsch.mods.mobmagic.blocks.BlockStarshineOre;
 import ctuchsch.mods.mobmagic.entity.EntityProjectileCreeper;
 import ctuchsch.mods.mobmagic.entity.EntityProjectileEnderman;
 import ctuchsch.mods.mobmagic.handlers.BucketHandler;
@@ -32,7 +33,9 @@ import ctuchsch.mods.mobmagic.items.ItemEssenceCreeperBucket;
 import ctuchsch.mods.mobmagic.items.ItemEssenceCreeperProjectile;
 import ctuchsch.mods.mobmagic.items.ItemEssenceEndermanBucket;
 import ctuchsch.mods.mobmagic.items.ItemEssenceEndermanProjectile;
+import ctuchsch.mods.mobmagic.items.ItemFossil;
 import ctuchsch.mods.mobmagic.items.ItemMobWand;
+import ctuchsch.mods.mobmagic.items.ItemStarshineCrystal;
 import ctuchsch.mods.mobmagic.tileentities.TileEssenceTank;
 
 @Mod(modid = MobMagic.MODID, version = MobMagic.VERSION)
@@ -60,11 +63,17 @@ public class MobMagic {
 	public static Fluid essenceEnderman;
 	public static BlockEssenceEnderman blockEssenceEnderman;
 	public static Block blockEssenceTank;
+	public static Block blockEssenciteOre;
+	public static Block blockEssenciteBlock;
+	public static Block blockFossilOre;
+	public static Block blockStarshineOre;
 	public static Item bucketEssenceEnderman;
 	public static Item mobWand;
 	public static Item entityProjectileCreeper;
 	public static Item itemEssenceCreeperProjectile;
 	public static Item itemEssenceEndermanProjectile;
+	public static Item itemStarshineCrystal;
+	public static Item itemFossil;
 	
 	@EventHandler
 	public void preInit(FMLPreInitializationEvent event) {
@@ -114,7 +123,13 @@ public class MobMagic {
 		GameRegistry.registerItem(itemEssenceCreeperProjectile,"essencecreeperprojectile");
 
 		itemEssenceEndermanProjectile = new ItemEssenceEndermanProjectile().setUnlocalizedName("essenceendermanprojectile").setTextureName(this.MODID+":orbEnderman");
-		GameRegistry.registerItem(itemEssenceEndermanProjectile,"essenceendermanprojectile");				
+		GameRegistry.registerItem(itemEssenceEndermanProjectile,"essenceendermanprojectile");		
+		
+		itemStarshineCrystal = new ItemStarshineCrystal().setUnlocalizedName("starshinecrystal").setTextureName(this.MODID + ":starshineCrystal");
+		GameRegistry.registerItem(itemStarshineCrystal, "starshinecrystal");
+		
+		itemFossil = new ItemFossil().setUnlocalizedName("fossil").setTextureName(this.MODID + ":fossil");
+		GameRegistry.registerItem(itemFossil, "itemfossil");
 	}
 
 	private void createAndRegisterBlocks() {
@@ -128,6 +143,19 @@ public class MobMagic {
 		
 		blockEssenceTank = new BlockEssenceTank().setBlockName("blockessencetank");
 		GameRegistry.registerBlock(blockEssenceTank, "blockessencetank");
+		
+		blockEssenciteOre = new BlockEssenciteOre().setBlockName("blockessenciteore").setBlockTextureName(this.MODID + ":blockEssenciteOre");
+		GameRegistry.registerBlock(blockEssenciteOre, "blockessenciteore");
+		
+		blockFossilOre = new BlockFossilOre().setBlockName("blockfossilore").setBlockTextureName(this.MODID + ":blockFossilOre");
+		GameRegistry.registerBlock(blockFossilOre, "blockfossilore");
+		
+		blockStarshineOre = new BlockStarshineOre().setBlockName("blockstarshineore").setBlockTextureName(this.MODID + ":blockStarshineOre");
+		GameRegistry.registerBlock(blockStarshineOre, "blockstarshineore");
+		
+		blockEssenciteBlock = new BlockEssenciteBlock().setBlockName("blockessenciteblock").setBlockTextureName(this.MODID + ":blockEssenciteBlock");
+		GameRegistry.registerBlock(blockEssenciteBlock, "blockessenciteblock");
+		
 		
 	}
 
