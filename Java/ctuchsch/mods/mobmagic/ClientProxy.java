@@ -9,7 +9,9 @@ import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import ctuchsch.mods.mobmagic.entity.EntityProjectileCreeper;
 import ctuchsch.mods.mobmagic.entity.EntityProjectileEnderman;
 import ctuchsch.mods.mobmagic.renderers.RendererEssenceTank;
+import ctuchsch.mods.mobmagic.renderers.RendererToolCharger;
 import ctuchsch.mods.mobmagic.tileentities.TileEssenceTank;
+import ctuchsch.mods.mobmagic.tileentities.TileToolCharger;
 
 public class ClientProxy extends CommonProxy {	
 	
@@ -20,6 +22,7 @@ public class ClientProxy extends CommonProxy {
 		RenderingRegistry.registerEntityRenderingHandler(EntityProjectileEnderman.class, new RenderSnowball(
 				MobMagic.itemEssenceEndermanProjectile));
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEssenceTank.class, new RendererEssenceTank());
+		ClientRegistry.bindTileEntitySpecialRenderer(TileToolCharger.class, new RendererToolCharger());
 	}
 
 	public static class Icons {

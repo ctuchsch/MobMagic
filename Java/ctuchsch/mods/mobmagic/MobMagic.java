@@ -25,6 +25,7 @@ import cpw.mods.fml.common.registry.GameRegistry;
 import ctuchsch.mods.mobmagic.blocks.BlockEssenceCreeper;
 import ctuchsch.mods.mobmagic.blocks.BlockEssenceEnderman;
 import ctuchsch.mods.mobmagic.blocks.BlockEssenceTank;
+import ctuchsch.mods.mobmagic.blocks.BlockToolCharger;
 import ctuchsch.mods.mobmagic.entity.EntityProjectileCreeper;
 import ctuchsch.mods.mobmagic.entity.EntityProjectileEnderman;
 import ctuchsch.mods.mobmagic.handlers.BucketHandler;
@@ -34,6 +35,7 @@ import ctuchsch.mods.mobmagic.items.ItemEssenceEndermanBucket;
 import ctuchsch.mods.mobmagic.items.ItemEssenceEndermanProjectile;
 import ctuchsch.mods.mobmagic.items.ItemMobWand;
 import ctuchsch.mods.mobmagic.tileentities.TileEssenceTank;
+import ctuchsch.mods.mobmagic.tileentities.TileToolCharger;
 
 @Mod(modid = MobMagic.MODID, version = MobMagic.VERSION)
 public class MobMagic {
@@ -65,6 +67,7 @@ public class MobMagic {
 	public static Item entityProjectileCreeper;
 	public static Item itemEssenceCreeperProjectile;
 	public static Item itemEssenceEndermanProjectile;
+	public static Block blockToolCharger;
 	
 	@EventHandler
 	public void preInit(FMLPreInitializationEvent event) {
@@ -88,6 +91,7 @@ public class MobMagic {
 		EntityRegistry.registerModEntity(EntityProjectileCreeper.class, "ProjectileEssenceCreeper", ENTITY_INDEX_ESSENCE_CREEPER, this.instance, 64, 10, true);
 		EntityRegistry.registerModEntity(EntityProjectileEnderman.class, "ProjectileEssenceEnderman", ENTITY_INDEX_ESSENCE_ENDERMAN, this.instance, 64, 10, true);
 		GameRegistry.registerTileEntity(TileEssenceTank.class, "tileessencetank");
+		GameRegistry.registerTileEntity(TileToolCharger.class, "tiletoolcharger");
 		
 	}
 
@@ -128,6 +132,9 @@ public class MobMagic {
 		
 		blockEssenceTank = new BlockEssenceTank().setBlockName("blockessencetank");
 		GameRegistry.registerBlock(blockEssenceTank, "blockessencetank");
+		
+		blockToolCharger = new BlockToolCharger().setBlockName("blocktoolcharger");
+		GameRegistry.registerBlock(blockToolCharger, "blocktoolcharger");
 		
 	}
 
