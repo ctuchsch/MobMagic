@@ -30,11 +30,14 @@ import ctuchsch.mods.mobmagic.blocks.BlockToolCharger;
 import ctuchsch.mods.mobmagic.entity.EntityProjectileCreeper;
 import ctuchsch.mods.mobmagic.entity.EntityProjectileEnderman;
 import ctuchsch.mods.mobmagic.handlers.BucketHandler;
+import ctuchsch.mods.mobmagic.handlers.GuiHandler;
 import ctuchsch.mods.mobmagic.items.ItemEssenceCreeperBucket;
 import ctuchsch.mods.mobmagic.items.ItemEssenceCreeperProjectile;
 import ctuchsch.mods.mobmagic.items.ItemEssenceEndermanBucket;
 import ctuchsch.mods.mobmagic.items.ItemEssenceEndermanProjectile;
 import ctuchsch.mods.mobmagic.items.ItemFossil;
+import ctuchsch.mods.mobmagic.items.ItemMagicDelinker;
+import ctuchsch.mods.mobmagic.items.ItemMagicLinker;
 import ctuchsch.mods.mobmagic.items.ItemMobWand;
 import ctuchsch.mods.mobmagic.items.ItemStarshineCrystal;
 import ctuchsch.mods.mobmagic.tileentities.TileEssenceTank;
@@ -49,11 +52,12 @@ public class MobMagic {
 	@Instance(MODID)
 	public static MobMagic  instance = new MobMagic();
 	
-	@SidedProxy(clientSide = "ctuchsch.mods.mobmagic.ClientProxy", serverSide = "ctuchsch.mods.mobmagic.CommonProxy")
-	public static CommonProxy proxy;
+	@SidedProxy( clientSide = "ctuchsch.mods.mobmagic.ClientProxy", serverSide = "ctuchsch.mods.mobmagic.CommonProxy")
+	public static Proxy proxy;
 	
 	private static int modGuiIndex = 0;
 	public static final int GUI_MOB_WAND = modGuiIndex++;
+	public static final int GUI_MOB_TOOLCHARGER = modGuiIndex++;
 	
 	private static int entityIndex = 0;
 	public static final int ENTITY_INDEX_ESSENCE_CREEPER = entityIndex++;
@@ -77,6 +81,8 @@ public class MobMagic {
 	public static Item itemEssenceEndermanProjectile;
 	public static Item itemStarshineCrystal;
 	public static Item itemFossil;
+	public static Item itemMagicLinker;
+	public static Item itemMagicDelinker;
 
 
 	
@@ -95,7 +101,7 @@ public class MobMagic {
 		createAndRegisterEntities();
 		createAndRegisterMisc();
 		proxy.registerRenderers();
-		NetworkRegistry.INSTANCE.registerGuiHandler(this,  new CommonProxy());
+		NetworkRegistry.INSTANCE.registerGuiHandler(this,  new GuiHandler());
 	}
 	
 	private void createAndRegisterEntities() {
@@ -103,7 +109,6 @@ public class MobMagic {
 		EntityRegistry.registerModEntity(EntityProjectileEnderman.class, "ProjectileEssenceEnderman", ENTITY_INDEX_ESSENCE_ENDERMAN, this.instance, 64, 10, true);
 		GameRegistry.registerTileEntity(TileEssenceTank.class, "tileessencetank");
 		GameRegistry.registerTileEntity(TileToolCharger.class, "tiletoolcharger");
-		
 	}
 
 	private void createAndRegisterMisc() {
@@ -136,6 +141,12 @@ public class MobMagic {
 		
 		itemFossil = new ItemFossil().setUnlocalizedName("fossil").setTextureName(this.MODID + ":fossil");
 		GameRegistry.registerItem(itemFossil, "itemfossil");
+		
+		itemMagicLinker = new ItemMagicLinker().setUnlocalizedName("itemmagiclinker").setTextureName(this.MODID+":itemMagicLinker");
+		GameRegistry.registerItem(itemMagicLinker, "itemmagiclinker");
+		
+		itemMagicDelinker = new ItemMagicDelinker().setUnlocalizedName("itemmagicdelinker").setTextureName(this.MODID+":itemMagicDelinker");
+		GameRegistry.registerItem(itemMagicDelinker, "itemmagicdelinker");
 	}
 
 	private void createAndRegisterBlocks() {
@@ -164,7 +175,6 @@ public class MobMagic {
 		
 		blockToolCharger = new BlockToolCharger().setBlockName("blocktoolcharger");
 		GameRegistry.registerBlock(blockToolCharger, "blocktoolcharger");
-
 		
 	}
 

@@ -82,6 +82,7 @@ public class RendererEssenceTank extends TileEntitySpecialRenderer {
 		if (liquidHeight > 0) {
 			GL11.glPushMatrix();
 			GL11.glTranslated(x, y, z);
+			GL11.glDisable(GL11.GL_LIGHTING);
 			Tessellator t = Tessellator.instance;
 			double contOffset = 4;			
 			
@@ -97,13 +98,9 @@ public class RendererEssenceTank extends TileEntitySpecialRenderer {
 			double minV =  texture.getInterpolatedV(0);
 			double maxV = texture.getInterpolatedV(16);
 
-			final int color;
-			if(texture != null) {
-				bindTexture(TextureMap.locationBlocksTexture);
-				color = fluid.getFluid().getColor();
-			}
+			bindTexture(TextureMap.locationBlocksTexture);					
+			
 			t.startDrawingQuads();
-
 			// front
 			t.addVertexWithUV(0 + (pixel * contOffset), 0 + pixel, 0 + (pixel * contOffset), maxU, maxV);
 			t.addVertexWithUV(0 + (pixel * contOffset), liquidHeight + pixel, 0 + (pixel * contOffset), maxU, minV);
@@ -135,6 +132,7 @@ public class RendererEssenceTank extends TileEntitySpecialRenderer {
 			t.addVertexWithUV(0 + (pixel * contOffset), 0 + pixel, 0 + (pixel * contOffset), minU, maxV);
 
 			t.draw();
+			GL11.glEnable(GL11.GL_LIGHTING);
 			GL11.glPopMatrix();
 		}
 	}

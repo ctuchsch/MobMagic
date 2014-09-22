@@ -1,7 +1,11 @@
 package ctuchsch.mods.mobmagic;
 
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.entity.RenderSnowball;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.IIcon;
+import net.minecraft.world.World;
 import net.minecraftforge.client.event.TextureStitchEvent;
 import cpw.mods.fml.client.registry.ClientRegistry;
 import cpw.mods.fml.client.registry.RenderingRegistry;
@@ -13,8 +17,8 @@ import ctuchsch.mods.mobmagic.renderers.RendererToolCharger;
 import ctuchsch.mods.mobmagic.tileentities.TileEssenceTank;
 import ctuchsch.mods.mobmagic.tileentities.TileToolCharger;
 
-public class ClientProxy extends CommonProxy {	
-	
+public class ClientProxy extends Proxy {
+
 	@Override
 	public void registerRenderers() {
 		RenderingRegistry.registerEntityRenderingHandler(EntityProjectileCreeper.class, new RenderSnowball(
@@ -44,5 +48,9 @@ public class ClientProxy extends CommonProxy {
 			if (MobMagic.essenceCreeper != null)
 				MobMagic.essenceCreeper.setIcons(Icons.essenceCreeperStill, Icons.essenceCreeperFlowing);
 		}
+	}
+
+	public void printMessageToPlayer(EntityPlayer player, String msg) {
+		player.addChatMessage(new ChatComponentText(msg));
 	}
 }

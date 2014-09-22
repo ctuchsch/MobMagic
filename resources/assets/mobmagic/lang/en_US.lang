@@ -12,7 +12,11 @@ tile.blockstarshineore.name=Starshine Ore
 tile.blockessenciteblock.name=Block of Essencite
 tile.essencecreeper.name=Creeper Essence
 tile.essenceenderman.name=Enderman Essence
-tile.blockessencetank.name= Essence Tank 
+tile.blockessencetank.name=Essence Tank 
+
+//Fluids
+fluid.essence.creeper=Creeper Essence
+fluid.essence.enderman=Enderman Essence
 
 //Items
 item.essencecreeperbucket.name=Bucket of Creeper Essence
