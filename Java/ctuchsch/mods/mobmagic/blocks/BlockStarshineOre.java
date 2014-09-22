@@ -45,6 +45,5 @@ public class BlockStarshineOre extends Block {
 		} else {
 			return 3;
 		}
-
 	}
 }

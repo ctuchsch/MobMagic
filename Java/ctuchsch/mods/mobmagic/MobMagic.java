@@ -5,6 +5,7 @@ import net.minecraft.block.material.Material;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.crafting.RecipesCrafting;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidContainerRegistry;
@@ -35,11 +36,16 @@ import ctuchsch.mods.mobmagic.items.ItemEssenceCreeperBucket;
 import ctuchsch.mods.mobmagic.items.ItemEssenceCreeperProjectile;
 import ctuchsch.mods.mobmagic.items.ItemEssenceEndermanBucket;
 import ctuchsch.mods.mobmagic.items.ItemEssenceEndermanProjectile;
+import ctuchsch.mods.mobmagic.items.ItemEssenciteDust;
+import ctuchsch.mods.mobmagic.items.ItemEssenciteIngot;
 import ctuchsch.mods.mobmagic.items.ItemFossil;
 import ctuchsch.mods.mobmagic.items.ItemMagicDelinker;
 import ctuchsch.mods.mobmagic.items.ItemMagicLinker;
 import ctuchsch.mods.mobmagic.items.ItemMobWand;
+import ctuchsch.mods.mobmagic.items.ItemStarshineCore;
 import ctuchsch.mods.mobmagic.items.ItemStarshineCrystal;
+import ctuchsch.mods.mobmagic.items.crafting.CraftingRecipes;
+import ctuchsch.mods.mobmagic.items.crafting.SmeltingRecipes;
 import ctuchsch.mods.mobmagic.tileentities.TileEssenceTank;
 import ctuchsch.mods.mobmagic.tileentities.TileToolCharger;
 
@@ -80,7 +86,10 @@ public class MobMagic {
 	public static Item itemEssenceCreeperProjectile;
 	public static Item itemEssenceEndermanProjectile;
 	public static Item itemStarshineCrystal;
+	public static Item itemStarshineCore;
 	public static Item itemFossil;
+	public static Item itemEssenciteDust;
+	public static Item itemEssenciteIngot;
 	public static Item itemMagicLinker;
 	public static Item itemMagicDelinker;
 
@@ -100,6 +109,7 @@ public class MobMagic {
 		createAndRegisterItems();
 		createAndRegisterEntities();
 		createAndRegisterMisc();
+		createAndRegisterRecipes();
 		proxy.registerRenderers();
 		NetworkRegistry.INSTANCE.registerGuiHandler(this,  new GuiHandler());
 	}
@@ -139,13 +149,22 @@ public class MobMagic {
 		itemStarshineCrystal = new ItemStarshineCrystal().setUnlocalizedName("starshinecrystal").setTextureName(this.MODID + ":starshineCrystal");
 		GameRegistry.registerItem(itemStarshineCrystal, "starshinecrystal");
 		
+		itemStarshineCore = new ItemStarshineCore().setUnlocalizedName("starshinecore").setTextureName(this.MODID + ":starshineCore");
+		GameRegistry.registerItem(itemStarshineCore, "starshinecore");
+		
 		itemFossil = new ItemFossil().setUnlocalizedName("fossil").setTextureName(this.MODID + ":fossil");
 		GameRegistry.registerItem(itemFossil, "itemfossil");
 		
-		itemMagicLinker = new ItemMagicLinker().setUnlocalizedName("itemmagiclinker").setTextureName(this.MODID+":itemMagicLinker");
+		itemEssenciteDust = new ItemEssenciteDust().setUnlocalizedName("essencitedust").setTextureName(this.MODID + ":essenciteDust");
+		GameRegistry.registerItem(itemEssenciteDust, "itemessencitedust");
+		
+		itemEssenciteIngot = new ItemEssenciteIngot().setUnlocalizedName("essenciteingot").setTextureName(this.MODID + ":essenciteIngot");
+		GameRegistry.registerItem(itemEssenciteIngot, "itemessenciteingot");
+		
+		itemMagicLinker = new ItemMagicLinker().setUnlocalizedName("magiclinker").setTextureName(this.MODID+":magicLinker");
 		GameRegistry.registerItem(itemMagicLinker, "itemmagiclinker");
 		
-		itemMagicDelinker = new ItemMagicDelinker().setUnlocalizedName("itemmagicdelinker").setTextureName(this.MODID+":itemMagicDelinker");
+		itemMagicDelinker = new ItemMagicDelinker().setUnlocalizedName("magicdelinker").setTextureName(this.MODID+":magicDelinker");
 		GameRegistry.registerItem(itemMagicDelinker, "itemmagicdelinker");
 	}
 
@@ -184,6 +203,11 @@ public class MobMagic {
 		
 		essenceEnderman = new Fluid("essence.enderman");
 		FluidRegistry.registerFluid(essenceEnderman);
+	}
+	
+	private void createAndRegisterRecipes() {
+		CraftingRecipes.addRecipes();
+		SmeltingRecipes.addRecipes();
 	}
 
 	@EventHandler
