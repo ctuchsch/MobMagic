@@ -13,6 +13,7 @@ import net.minecraftforge.client.event.TextureStitchEvent;
 import cpw.mods.fml.client.registry.ClientRegistry;
 import cpw.mods.fml.client.registry.RenderingRegistry;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
+import cpw.mods.fml.common.network.simpleimpl.MessageContext;
 import ctuchsch.mods.mobmagic.entity.EntityProjectileCreeper;
 import ctuchsch.mods.mobmagic.entity.EntityProjectileEnderman;
 import ctuchsch.mods.mobmagic.models.ModelEssenceTank;
@@ -25,7 +26,7 @@ import ctuchsch.mods.mobmagic.tileentities.TileEssenceTank;
 import ctuchsch.mods.mobmagic.tileentities.TileToolCharger;
 
 public class ClientProxy extends Proxy {
-
+	
 	@Override
 	public void registerRenderers() {
 		RenderingRegistry.registerEntityRenderingHandler(EntityProjectileCreeper.class, new RenderSnowball(

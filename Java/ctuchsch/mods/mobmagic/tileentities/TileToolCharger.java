@@ -1,5 +1,7 @@
 package ctuchsch.mods.mobmagic.tileentities;
 
+import java.util.Random;
+
 import ctuchsch.mods.mobmagic.MobMagic;
 import ctuchsch.mods.mobmagic.fluids.TankEssence;
 import ctuchsch.mods.mobmagic.utils.ChatUtils;
@@ -21,6 +23,7 @@ import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.world.World;
+import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.FluidTankInfo;
 import net.minecraftforge.fluids.IFluidTank;
@@ -28,11 +31,14 @@ import net.minecraftforge.fluids.IFluidTank;
 public class TileToolCharger extends TileEntity implements ISidedInventory {
 	private String localizedName;
 	private static final double MAX_LINK_DIST = 100D;
-	private static final int MAX_TANKS = 6;
-	private int TANKS_ALLOWED = 6;
+	private static final int MAX_TANKS = 4;
+	private static final int MAX_FLUID_CRAFTING_SLOTS = 3;
+	public static final int bubbleSpeed = 20;
+	public static final int ProcessingSpeed = 800;
+	private int TANKS_ALLOWED = 4;
 	public int processingSlot = -1;
 	public int processingTicks = 0;
-	public int ProcessingSpeed = 800;
+	public int[] fluidSlots = new int[MAX_FLUID_CRAFTING_SLOTS];
 
 	public EntityItem itemEntity;
 	public ItemStack item;
@@ -40,6 +46,7 @@ public class TileToolCharger extends TileEntity implements ISidedInventory {
 	public Location tanks[] = new Location[MAX_TANKS];
 
 	public TileToolCharger() {
+		clearProcessingSlots();
 	}
 
 	@Override
@@ -57,6 +64,17 @@ public class TileToolCharger extends TileEntity implements ISidedInventory {
 				processingTicks = nbt.getInteger("ProcessingTicks");
 		}
 
+		NBTTagList fluidList = nbt.getTagList("FluidList", 10);
+		clearProcessingSlots();
+		for (int i = 0; i < fluidList.tagCount(); i++) {
+			NBTTagCompound compound = fluidList.getCompoundTagAt(i);
+			int j = compound.getInteger("Slot");
+			if (j >= 0 && j < fluidSlots.length) {				
+				if (compound.hasKey("FluidIndex"))
+					fluidSlots[j] = compound.getInteger("FluidIndex");
+			}
+		}
+
 		NBTTagList list = nbt.getTagList("Locations", 10);
 		this.tanks = new Location[MAX_TANKS];
 
@@ -71,13 +89,24 @@ public class TileToolCharger extends TileEntity implements ISidedInventory {
 	@Override
 	public void writeToNBT(NBTTagCompound nbt) {
 		super.writeToNBT(nbt);
-		if (item != null) 
-			nbt.setTag("MyItem", item.writeToNBT(new NBTTagCompound()));		
+		if (item != null)
+			nbt.setTag("MyItem", item.writeToNBT(new NBTTagCompound()));
 
 		if (processingSlot != -1) {
 			nbt.setInteger("ProcessingSlot", processingSlot);
 			nbt.setInteger("ProcessingTicks", processingTicks);
 		}
+
+		NBTTagList fluidList = new NBTTagList();
+		for (int i = 0; i < fluidSlots.length; i++) {
+			if (fluidSlots[i] != -1) {
+				NBTTagCompound compound = new NBTTagCompound();
+				compound.setInteger("Slot", i);
+				compound.setInteger("FluidIndex", fluidSlots[i]);
+				fluidList.appendTag(compound);
+			}
+		}
+		nbt.setTag("FluidList", fluidList);
 
 		NBTTagList list = new NBTTagList();
 		for (int i = 0; i < tanks.length; i++) {
@@ -114,6 +143,7 @@ public class TileToolCharger extends TileEntity implements ISidedInventory {
 
 	@Override
 	public void updateEntity() {
+		//System.out.println(this.getNumCraftingSlotsFilled()+ " server? "+worldObj.isRemote);
 		if (itemEntity != null)
 			itemEntity.age++;
 		if (processingSlot != -1) {
@@ -121,6 +151,7 @@ public class TileToolCharger extends TileEntity implements ISidedInventory {
 			if (processingTicks >= ProcessingSpeed) {
 				processingSlot = -1;
 				processingTicks = 0;
+				clearProcessingSlots();
 			}
 		}
 	}
@@ -359,8 +390,87 @@ public class TileToolCharger extends TileEntity implements ISidedInventory {
 		return true;
 	}
 
+	public boolean isProcessing() {
+		return processingSlot >= 0;
+	}
+
+	public void clearProcessingSlots() {
+		for (int i = 0; i < fluidSlots.length; i++) {
+			fluidSlots[i] = -1;
+		}
+	}
+
+	public TileEssenceTank getCraftingSlotTank(int slot) {
+		if (slot < fluidSlots.length) {
+			int index = fluidSlots[slot];
+			if (index != -1) {
+				if (index < tanks.length) {
+					Location loc = tanks[index];
+					TileEntity testEntity = worldObj.getTileEntity(loc.x, loc.y, loc.z);
+					if (testEntity instanceof TileEssenceTank)
+						return (TileEssenceTank) testEntity;
+				}
+			}
+		}
+		return null;
+	}
+
+	public void clearCraftingSlot(int slot) {
+		if (slot < fluidSlots.length)
+			fluidSlots[slot] = -1;
+	}
+
+	public int getEmptyProcessingSlot() {
+		for (int i = 0; i < fluidSlots.length; i++) {
+			if (fluidSlots[i] == -1)
+				return i;
+		}
+		return -1;
+	}
+
+	public int inProcessingSlot(int value) {
+		for (int i = 0; i < fluidSlots.length; i++) {
+			if (fluidSlots[i] == value)
+				return i;
+		}
+		return -1;
+	}
+
+	public int getNumCraftingSlotsFilled() {
+		int retval = 0;
+		for (int i = 0; i < fluidSlots.length; i++) {
+			if (fluidSlots[i] != -1)
+				retval++;
+		}
+		return retval;
+	}
+	
 	public void processSlot(int id) {
-		if (processingSlot == -1)
-			processingSlot = id;
+		if(!worldObj.isRemote)
+			System.out.println("hi");
+		int slot;
+		if (!isProcessing()) {
+			// is this in a slot? if so remove it
+			slot = inProcessingSlot(id);
+			if (slot >= 0)
+				clearCraftingSlot(slot);
+			else {
+				// are all the slots full?
+				slot = getEmptyProcessingSlot();
+				if (slot >= 0) {
+					fluidSlots[slot] = id;					
+				}
+			}
+		}		
+		markDirty();
+	}
+
+	public void startProcessing() {
+		int numSlots = getNumCraftingSlotsFilled();
+		// check crafting stuffs here
+		if (numSlots > 0) {
+			Random r = new Random();
+			this.processingSlot = r.nextInt(numSlots - 1);
+		}
 	}
 }
