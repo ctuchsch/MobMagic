@@ -44,7 +44,7 @@ public class ItemRendererEssenceTank implements IItemRenderer {
 		if(type == ItemRenderType.EQUIPPED)
 			GL11.glTranslated(.3F, 1.2F, .3F);
 		if(type == ItemRenderType.EQUIPPED_FIRST_PERSON)
-			GL11.glTranslated(-.3F, 2.1F, .7F);
+			GL11.glTranslated(-.3F, 2.0F, .7F);
 		if(type == ItemRenderType.ENTITY)
 			GL11.glTranslated(0F, 1.5F, 0F);
 		GL11.glRotatef(180F, 0, 0, 1F);		
@@ -80,7 +80,7 @@ public class ItemRendererEssenceTank implements IItemRenderer {
 			if(type == ItemRenderType.EQUIPPED)
 				GL11.glTranslated(-.2F, -.3F, -.2F);
 			if(type == ItemRenderType.EQUIPPED_FIRST_PERSON)
-				GL11.glTranslated(-.6F, .60F, .05F);
+				GL11.glTranslated(-.6F, .53F, .08F);
 			if(type == ItemRenderType.ENTITY)
 				GL11.glTranslated(-.48F, 0F, -.5F);
 			
