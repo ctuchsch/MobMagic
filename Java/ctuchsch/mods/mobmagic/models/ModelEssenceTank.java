@@ -4,14 +4,14 @@ import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.entity.Entity;
 
-public class ModelTankEssence extends ModelBase
+public class ModelEssenceTank extends ModelBase
 {
   //fields
     ModelRenderer jarTop;
     ModelRenderer jarBottom;
     ModelRenderer Tank;
   
-  public ModelTankEssence()
+  public ModelEssenceTank()
   {
     textureWidth = 64;
     textureHeight = 64;

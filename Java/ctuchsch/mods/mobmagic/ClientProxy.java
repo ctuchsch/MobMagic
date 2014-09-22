@@ -3,15 +3,22 @@ package ctuchsch.mods.mobmagic;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.entity.RenderSnowball;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.Item;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.IIcon;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
+import net.minecraftforge.client.MinecraftForgeClient;
 import net.minecraftforge.client.event.TextureStitchEvent;
 import cpw.mods.fml.client.registry.ClientRegistry;
 import cpw.mods.fml.client.registry.RenderingRegistry;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import ctuchsch.mods.mobmagic.entity.EntityProjectileCreeper;
 import ctuchsch.mods.mobmagic.entity.EntityProjectileEnderman;
+import ctuchsch.mods.mobmagic.models.ModelEssenceTank;
+import ctuchsch.mods.mobmagic.models.ModelToolCharger;
+import ctuchsch.mods.mobmagic.renderers.ItemRendererEssenceTank;
+import ctuchsch.mods.mobmagic.renderers.ItemRendererToolCharger;
 import ctuchsch.mods.mobmagic.renderers.RendererEssenceTank;
 import ctuchsch.mods.mobmagic.renderers.RendererToolCharger;
 import ctuchsch.mods.mobmagic.tileentities.TileEssenceTank;
@@ -25,8 +32,16 @@ public class ClientProxy extends Proxy {
 				MobMagic.itemEssenceCreeperProjectile));
 		RenderingRegistry.registerEntityRenderingHandler(EntityProjectileEnderman.class, new RenderSnowball(
 				MobMagic.itemEssenceEndermanProjectile));
-		ClientRegistry.bindTileEntitySpecialRenderer(TileEssenceTank.class, new RendererEssenceTank());
-		ClientRegistry.bindTileEntitySpecialRenderer(TileToolCharger.class, new RendererToolCharger());
+		ModelEssenceTank essenceTankModel = new ModelEssenceTank();
+		ResourceLocation essenceTankTexture = new ResourceLocation(MobMagic.MODID + ":textures/models/TankEssence.png");
+		
+		ClientRegistry.bindTileEntitySpecialRenderer(TileEssenceTank.class, new RendererEssenceTank(essenceTankModel, essenceTankTexture));
+		MinecraftForgeClient.registerItemRenderer(Item.getItemFromBlock(MobMagic.blockEssenceTank), new ItemRendererEssenceTank(essenceTankModel, essenceTankTexture));
+		ModelToolCharger toolChargerModel = new ModelToolCharger();
+		ResourceLocation toolChargerTexture = new ResourceLocation(MobMagic.MODID, "textures/models/ModelToolCharger.png");
+		ClientRegistry.bindTileEntitySpecialRenderer(TileToolCharger.class, new RendererToolCharger(toolChargerModel,toolChargerTexture));
+		MinecraftForgeClient.registerItemRenderer(Item.getItemFromBlock(MobMagic.blockToolCharger), new ItemRendererToolCharger(toolChargerModel, toolChargerTexture));
+				
 	}
 
 	public static class Icons {

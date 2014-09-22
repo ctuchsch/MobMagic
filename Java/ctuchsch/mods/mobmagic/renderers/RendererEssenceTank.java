@@ -4,7 +4,7 @@ import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL40;
 
 import ctuchsch.mods.mobmagic.MobMagic;
-import ctuchsch.mods.mobmagic.models.ModelTankEssence;
+import ctuchsch.mods.mobmagic.models.ModelEssenceTank;
 import ctuchsch.mods.mobmagic.tileentities.TileEssenceTank;
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
@@ -26,11 +26,11 @@ import net.minecraftforge.fluids.FluidStack;
 
 public class RendererEssenceTank extends TileEntitySpecialRenderer {
 
-	private final ModelTankEssence model;
+	private final ModelEssenceTank model;
 	private final ResourceLocation tank;
-	public RendererEssenceTank() {
-		this.model = new ModelTankEssence();
-		this.tank = new ResourceLocation(MobMagic.MODID + ":textures/models/TankEssence.png");	
+	public RendererEssenceTank(ModelEssenceTank model, ResourceLocation texture) {
+		this.model = model;
+		this.tank = texture;	
 	}
 
 	private void adjustRotatePivotViaMeta(World world, int x, int y, int z) {

@@ -3,7 +3,7 @@ package ctuchsch.mods.mobmagic.renderers;
 import org.lwjgl.opengl.GL11;
 
 import ctuchsch.mods.mobmagic.MobMagic;
-import ctuchsch.mods.mobmagic.models.ModelTankEssence;
+import ctuchsch.mods.mobmagic.models.ModelEssenceTank;
 import ctuchsch.mods.mobmagic.models.ModelToolCharger;
 import ctuchsch.mods.mobmagic.tileentities.TileEssenceTank;
 import ctuchsch.mods.mobmagic.tileentities.TileToolCharger;
@@ -30,9 +30,9 @@ public class RendererToolCharger extends TileEntitySpecialRenderer {
 	private final ModelToolCharger model;
 	private final ResourceLocation block;
 
-	public RendererToolCharger() {
-		this.model = new ModelToolCharger();
-		this.block = new ResourceLocation(MobMagic.MODID + ":textures/models/ModelToolCharger.png");
+	public RendererToolCharger(ModelToolCharger model, ResourceLocation texture) {
+		this.model = model;
+		this.block = texture;
 	}
 
 	@Override
@@ -82,7 +82,6 @@ public class RendererToolCharger extends TileEntitySpecialRenderer {
 						liquidHeight = segments;
 					
 					liquidHeight *= pixel;
-					System.out.println(myCharger.processingTicks);
 					IIcon texture = fluid.getFluid().getIcon();
 
 					double minU = texture.getInterpolatedU(0);

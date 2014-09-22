@@ -24,6 +24,7 @@ public class BlockToolCharger extends BlockContainer {
 	public BlockToolCharger() {
 		super(Material.rock);
 		setCreativeTab(CreativeTabs.tabMisc);
+		this.setHardness(4.0F);
 	}
 	
 	@SideOnly(Side.CLIENT)

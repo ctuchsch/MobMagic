@@ -51,7 +51,7 @@ public class BlockEssenceTank extends BlockContainer {
 	@SideOnly(Side.CLIENT)
 	@Override
 	public void registerBlockIcons(IIconRegister iconRegister) {
-		this.blockIcon = iconRegister.registerIcon(MobMagic.MODID + ":essenceTank_front");
+		this.blockIcon = iconRegister.registerIcon(MobMagic.MODID + ":essenceTankIcon");
 	}
 
 	@Override
@@ -145,7 +145,7 @@ public class BlockEssenceTank extends BlockContainer {
 							if (!item.hasTagCompound()) {
 								item.setTagCompound(new NBTTagCompound());
 							}
-							myTank.tank.writeToNBT(item.getTagCompound());
+							myTank.tank.writeToNBT(item.getTagCompound());							
 						}
 						dropBlockAsItem(world, x, y, z, item);
 					}
