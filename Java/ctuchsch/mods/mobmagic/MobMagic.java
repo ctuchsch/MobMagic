@@ -17,8 +17,10 @@ import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.network.NetworkRegistry;
+import cpw.mods.fml.common.network.simpleimpl.SimpleNetworkWrapper;
 import cpw.mods.fml.common.registry.EntityRegistry;
 import cpw.mods.fml.common.registry.GameRegistry;
+import cpw.mods.fml.relauncher.Side;
 import ctuchsch.mods.mobmagic.blocks.BlockEssenceCreeper;
 import ctuchsch.mods.mobmagic.blocks.BlockEssenceEnderman;
 import ctuchsch.mods.mobmagic.blocks.BlockEssenceTank;
@@ -40,6 +42,7 @@ import ctuchsch.mods.mobmagic.items.ItemMagicDelinker;
 import ctuchsch.mods.mobmagic.items.ItemMagicLinker;
 import ctuchsch.mods.mobmagic.items.ItemMobWand;
 import ctuchsch.mods.mobmagic.items.ItemStarshineCrystal;
+import ctuchsch.mods.mobmagic.messages.MessageInfuserGuiButton;
 import ctuchsch.mods.mobmagic.tileentities.TileEssenceTank;
 import ctuchsch.mods.mobmagic.tileentities.TileToolCharger;
 
@@ -62,6 +65,7 @@ public class MobMagic {
 	private static int entityIndex = 0;
 	public static final int ENTITY_INDEX_ESSENCE_CREEPER = entityIndex++;
 	public static final int ENTITY_INDEX_ESSENCE_ENDERMAN = entityIndex++;
+	public static SimpleNetworkWrapper infuserButtonChannel;
 	
 	public static Fluid essenceCreeper;
 	public static BlockEssenceCreeper blockEssenceCreeper;
@@ -102,6 +106,8 @@ public class MobMagic {
 		createAndRegisterMisc();
 		proxy.registerRenderers();
 		NetworkRegistry.INSTANCE.registerGuiHandler(this,  new GuiHandler());
+		infuserButtonChannel =  NetworkRegistry.INSTANCE.newSimpleChannel("MobMagicInfuserButton");
+		infuserButtonChannel.registerMessage(MessageInfuserGuiButton.Handler.class, MessageInfuserGuiButton.class, 0, Side.SERVER);
 	}
 	
 	private void createAndRegisterEntities() {

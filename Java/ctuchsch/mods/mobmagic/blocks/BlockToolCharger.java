@@ -92,5 +92,4 @@ public class BlockToolCharger extends BlockContainer {
 		}
 		return false;
 	}
-
 }

@@ -14,7 +14,7 @@ public class ContainerToolCharger extends Container {
 	public ContainerToolCharger(InventoryPlayer playerInventory, TileToolCharger charger) {
 		this.charger = charger;
 		
-		this.addSlotToContainer(new Slot(charger, 0, 80, 28));
+		this.addSlotToContainer(new Slot(charger, 0, 80, 51));
 		
 		for (int i = 0; i < 3; i++) {
 			for (int j = 0; j < 9; j++) {

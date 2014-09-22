@@ -7,6 +7,7 @@ import org.lwjgl.opengl.GL11;
 
 import ctuchsch.mods.mobmagic.MobMagic;
 import ctuchsch.mods.mobmagic.containers.ContainerToolCharger;
+import ctuchsch.mods.mobmagic.messages.MessageInfuserGuiButton;
 import ctuchsch.mods.mobmagic.tileentities.TileEssenceTank;
 import ctuchsch.mods.mobmagic.tileentities.TileToolCharger;
 import net.minecraft.client.Minecraft;
@@ -24,11 +25,14 @@ import net.minecraft.util.StatCollector;
 import net.minecraftforge.fluids.FluidStack;
 
 public class GuiToolCharger extends GuiContainer {
-	public static final ResourceLocation texture = new ResourceLocation(MobMagic.MODID, "textures/gui/toolChargerGUI.png");
+	public static final ResourceLocation texture = new ResourceLocation(MobMagic.MODID,
+			"textures/gui/infusionCrafterGUI.png");
 	TileToolCharger charger;
 
 	private float mouseX;
 	private float mouseY;
+	private int over2Offset = 82;
+	private int under2Offset = 8;
 
 	public GuiToolCharger(InventoryPlayer playerInventory, TileToolCharger charger) {
 		super(new ContainerToolCharger(playerInventory, charger));
@@ -40,22 +44,27 @@ public class GuiToolCharger extends GuiContainer {
 
 	@Override
 	protected void actionPerformed(GuiButton b) {
-		charger.processSlot(b.id);
+		if (b.id < 100)
+			charger.processSlot(b.id);
+		if (b.id >= 100)
+			charger.startProcessing();
+		
+		MessageInfuserGuiButton message = new MessageInfuserGuiButton(b.id,charger.xCoord,charger.yCoord,charger.zCoord);
+		MobMagic.infuserButtonChannel.sendToServer(message);		
 	}
 
 	@Override
 	public void initGui() {
 		super.initGui();
-
 		int linkedTanks = charger.getNumActiveLinks();
 		for (int i = 0; i < linkedTanks; i++) {
-			if (i < 3)
-				buttonList.add(new GuiButton(i, (guiLeft + 9) + (i * 23), guiTop + 63, 15, 10, ""));
+			if (i < 2)
+				buttonList.add(new GuiButton(i, (guiLeft + under2Offset + 1) + (i * 23), guiTop + 63, 15, 10, ""));
 			else
-				buttonList.add(new GuiButton(i, (guiLeft + 37) + (i * 23), guiTop + 63, 15, 10, ""));
+				buttonList.add(new GuiButton(i, (guiLeft + over2Offset + 1) + (i * 23), guiTop + 63, 15, 10, ""));
 		}
+		buttonList.add(new GuiButton(100, guiLeft + 81, guiTop + 70, 15, 10, ""));
 
-		//buttonList.add(new GuiButton(1, guiLeft + 10, guiTop + 60, 25, 20, ">>"));
 	}
 
 	@Override
@@ -67,21 +76,89 @@ public class GuiToolCharger extends GuiContainer {
 
 		int linkedTanks = charger.getNumActiveLinks();
 		for (int i = 0; i < linkedTanks; i++) {
-			if (i < 3)
-				drawTexturedModalRect((guiLeft + 8) + (i * 23), guiTop + 12, 176, 0, 16, 50);
+			if (i < 2)
+				drawTexturedModalRect((guiLeft + under2Offset) + (i * 23), guiTop + 12, 176, 0, 16, 50);
 			else
-				drawTexturedModalRect((guiLeft + 36) + (i * 23), guiTop + 12, 176, 0, 16, 50);
+				drawTexturedModalRect((guiLeft + over2Offset) + (i * 23), guiTop + 12, 176, 0, 16, 50);
 		}
 
 		drawFluid(linkedTanks);
 
 		Minecraft.getMinecraft().getTextureManager().bindTexture(texture);
 		for (int i = 0; i < linkedTanks; i++) {
-			if (i < 3)
-				drawTexturedModalRect((guiLeft + 9) + (i * 23), guiTop + 12, 176, 52, 11, 50);
+			if (i < 2)
+				drawTexturedModalRect((guiLeft + under2Offset + 1) + (i * 23), guiTop + 12, 176, 52, 11, 50);
 			else
-				drawTexturedModalRect((guiLeft + 37) + (i * 23), guiTop + 12, 176, 52, 11, 50);
+				drawTexturedModalRect((guiLeft + over2Offset + 1) + (i * 23), guiTop + 12, 176, 52, 11, 50);
 		}
+
+		if (charger.processingTicks > 0) {
+			int bubbleSegments = 28;
+			int arrowSegments = 26;
+
+			int bubbleHeight = (charger.processingTicks % charger.bubbleSpeed) * bubbleSegments / charger.bubbleSpeed;
+			int arrowHeight = charger.processingTicks * arrowSegments / charger.ProcessingSpeed;
+			// draw bubbles
+			drawTexturedModalRect(guiLeft + 65, guiTop + 43, 192, 0, 13, bubbleHeight);
+
+			// draw arrow
+			drawTexturedModalRect(guiLeft + 101, guiTop + 43, 205, 0, 8, arrowHeight);
+		}
+
+		drawCraftingFluidSquares();
+	}
+
+	private void drawCraftingFluidSquares() {
+		Minecraft.getMinecraft().getTextureManager().bindTexture(TextureMap.locationBlocksTexture);
+		Tessellator t = Tessellator.instance;
+		t.startDrawingQuads();
+		int j = 0;
+		//System.out.println(charger.getNumCraftingSlotsFilled());
+		for (int i = 0; j < charger.getNumCraftingSlotsFilled() && i < charger.fluidSlots.length; i++) {
+			TileEssenceTank tank = charger.getCraftingSlotTank(i);
+			if (tank != null) {
+				FluidStack fluid = tank.tank.getFluid();
+				if (fluid.getFluid().getIcon() != null) {
+					IIcon texture = fluid.getFluid().getIcon();
+					double minU = texture.getInterpolatedU(0);
+					double maxU = texture.getInterpolatedU(16);
+					double minV = texture.getInterpolatedV(0);
+					double maxV = texture.getInterpolatedV(16);
+					
+					int minX = 0;
+					int maxX = 0;
+					int maxY = 0;
+					int minY = 0;
+					
+					switch(j) {
+						case 0:
+							minX = guiLeft + 59;
+							minY = guiTop + 15;
+							break;							
+						case 1:
+							minX = guiLeft + 80;
+							minY = guiTop + 9;
+							break;
+						case 2: 
+							minX = guiLeft + 101;
+							minY = guiTop + 15;
+							break;
+					}
+					
+					maxX = minX + 16;
+					maxY = minY + 16;
+					
+
+					t.addVertexWithUV(minX, minY, zLevel, maxU, maxV);
+					t.addVertexWithUV(minX, maxY, zLevel, maxU, minV);
+					t.addVertexWithUV(maxX, maxY, zLevel, minU, minV);
+					t.addVertexWithUV(maxX, minY, zLevel, minU, maxV);
+
+					j++;
+				}
+			}
+		}
+		t.draw();
 	}
 
 	private void drawFluid(int TankCount) {
@@ -105,14 +182,14 @@ public class GuiToolCharger extends GuiContainer {
 
 						int offsetSide;
 
-						if (i < 3) {
-							offsetSide = guiLeft + 9 + (i * 23);
+						if (i < 2) {
+							offsetSide = guiLeft + under2Offset + 1 + (i * 23);
 							t.addVertexWithUV(offsetSide, offsetBottom - liquidHeight, zLevel, maxU, maxV);
 							t.addVertexWithUV(offsetSide, offsetBottom, zLevel, maxU, minV);
 							t.addVertexWithUV(offsetSide + 14, offsetBottom, zLevel, minU, minV);
 							t.addVertexWithUV(offsetSide + 14, offsetBottom - liquidHeight, zLevel, minU, maxV);
 						} else {
-							offsetSide = guiLeft + 37 + (i * 23);
+							offsetSide = guiLeft + over2Offset + 1 + (i * 23);
 							t.addVertexWithUV(offsetSide, offsetBottom - liquidHeight, zLevel, maxU, maxV);
 							t.addVertexWithUV(offsetSide, offsetBottom, zLevel, maxU, minV);
 							t.addVertexWithUV(offsetSide + 14, offsetBottom, zLevel, minU, minV);
@@ -144,17 +221,17 @@ public class GuiToolCharger extends GuiContainer {
 
 		int linkedTanks = charger.getNumActiveLinks();
 		for (int i = 0; i < linkedTanks; i++) {
-			if (i < 3) {
+			if (i < 2) {
 				// drawTexturedModalRect((guiLeft + 8) + (i * 23), guiTop + 12,
 				// 176, 0, 16, 50);
-				boxX = (guiLeft + 8) + (i * 23);
+				boxX = (guiLeft + under2Offset) + (i * 23);
 				boxY = (guiTop + 12);
 
 			} else {
 				// drawTexturedModalRect((guiLeft + 36) + (i * 23), guiTop + 12,
 				// 176, 0, 16, 50);
 
-				boxX = (guiLeft + 36) + (i * 23);
+				boxX = (guiLeft + over2Offset) + (i * 23);
 				boxY = (guiTop + 12);
 			}
 
@@ -168,9 +245,6 @@ public class GuiToolCharger extends GuiContainer {
 					}
 				}
 			}
-
 		}
-
 	}
-
 }
