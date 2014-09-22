@@ -8,6 +8,7 @@ import ctuchsch.mods.mobmagic.items.ItemMagicLinker;
 import ctuchsch.mods.mobmagic.tileentities.TileToolCharger;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
+import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
@@ -23,6 +24,12 @@ public class BlockToolCharger extends BlockContainer {
 	public BlockToolCharger() {
 		super(Material.rock);
 		setCreativeTab(CreativeTabs.tabMisc);
+	}
+	
+	@SideOnly(Side.CLIENT)
+	@Override
+	public void registerBlockIcons(IIconRegister iconRegister) {
+		this.blockIcon = iconRegister.registerIcon(MobMagic.MODID + ":blockToolCharger");
 	}
 
 	@Override
