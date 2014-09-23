@@ -12,7 +12,9 @@ tile.blockstarshineore.name=Starshine Ore
 tile.blockessenciteblock.name=Block of Essencite
 tile.essencecreeper.name=Creeper Essence
 tile.essenceenderman.name=Enderman Essence
-tile.blockessencetank.name=Essence Tank 
+tile.essencespider.name=Spider Essence
+tile.essenceacid.name=Essence Acid
+tile.blockessencetank.name=Essence Tank
 tile.blocktoolcharger.name=Tool Charger
 
 //Fluids
