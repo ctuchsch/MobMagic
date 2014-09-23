@@ -1,5 +1,7 @@
 package ctuchsch.mods.mobmagic.tileentities;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 import ctuchsch.mods.mobmagic.MobMagic;
@@ -143,7 +145,6 @@ public class TileToolCharger extends TileEntity implements ISidedInventory {
 
 	@Override
 	public void updateEntity() {
-		//System.out.println(this.getNumCraftingSlotsFilled()+ " server? "+worldObj.isRemote);
 		if (itemEntity != null)
 			itemEntity.age++;
 		if (processingSlot != -1) {
@@ -446,8 +447,6 @@ public class TileToolCharger extends TileEntity implements ISidedInventory {
 	}
 	
 	public void processSlot(int id) {
-		if(!worldObj.isRemote)
-			System.out.println("hi");
 		int slot;
 		if (!isProcessing()) {
 			// is this in a slot? if so remove it
@@ -464,13 +463,23 @@ public class TileToolCharger extends TileEntity implements ISidedInventory {
 		}		
 		markDirty();
 	}
+	
+	public int getFirstValid() {
+		for(int i = 0; i < fluidSlots.length; i++){
+			if(fluidSlots[i] != -1)
+				return i;
+		}
+		return -1;
+	}
 
 	public void startProcessing() {
 		int numSlots = getNumCraftingSlotsFilled();
 		// check crafting stuffs here
-		if (numSlots > 0) {
-			Random r = new Random();
-			this.processingSlot = r.nextInt(numSlots - 1);
-		}
+		Random r = new Random();
+		if (numSlots > 1) 
+			this.processingSlot = r.nextInt(numSlots);
+		if(numSlots == 1 && getFirstValid() != -1)
+			this.processingSlot = fluidSlots[getFirstValid()];
+		
 	}
 }

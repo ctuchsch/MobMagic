@@ -30,7 +30,17 @@ public class CraftingRecipes {
 				"o  ",
 				'x', MobMagic.itemEssenciteIngot, 'o', Items.stick);
 		
+		GameRegistry.addRecipe(new ItemStack(MobMagic.itemMagicLinker),
+				" xx",
+				" xx",
+				"x  ",
+				'x', MobMagic.itemEssenciteIngot);
 		
+		GameRegistry.addRecipe(new ItemStack(MobMagic.itemMagicDelinker), 
+				" x ",
+				"x x",
+				" x ",
+				'x', MobMagic.itemEssenciteIngot);
 		
 		//SHAPELESS RECIPES----
 		

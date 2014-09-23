@@ -48,9 +48,9 @@ public class GuiToolCharger extends GuiContainer {
 			charger.processSlot(b.id);
 		if (b.id >= 100)
 			charger.startProcessing();
-		
-		MessageInfuserGuiButton message = new MessageInfuserGuiButton(b.id,charger.xCoord,charger.yCoord,charger.zCoord);
-		MobMagic.infuserButtonChannel.sendToServer(message);		
+
+		MessageInfuserGuiButton message = new MessageInfuserGuiButton(b.id, charger.xCoord, charger.yCoord, charger.zCoord);
+		MobMagic.infuserButtonChannel.sendToServer(message);
 	}
 
 	@Override
@@ -113,48 +113,50 @@ public class GuiToolCharger extends GuiContainer {
 		Tessellator t = Tessellator.instance;
 		t.startDrawingQuads();
 		int j = 0;
-		//System.out.println(charger.getNumCraftingSlotsFilled());
+		// System.out.println(charger.getNumCraftingSlotsFilled());
 		for (int i = 0; j < charger.getNumCraftingSlotsFilled() && i < charger.fluidSlots.length; i++) {
 			TileEssenceTank tank = charger.getCraftingSlotTank(i);
 			if (tank != null) {
 				FluidStack fluid = tank.tank.getFluid();
-				if (fluid.getFluid().getIcon() != null) {
-					IIcon texture = fluid.getFluid().getIcon();
-					double minU = texture.getInterpolatedU(0);
-					double maxU = texture.getInterpolatedU(16);
-					double minV = texture.getInterpolatedV(0);
-					double maxV = texture.getInterpolatedV(16);
-					
-					int minX = 0;
-					int maxX = 0;
-					int maxY = 0;
-					int minY = 0;
-					
-					switch(j) {
-						case 0:
-							minX = guiLeft + 59;
-							minY = guiTop + 15;
-							break;							
-						case 1:
-							minX = guiLeft + 80;
-							minY = guiTop + 9;
-							break;
-						case 2: 
-							minX = guiLeft + 101;
-							minY = guiTop + 15;
-							break;
+				if (fluid != null) {
+
+					if (fluid.getFluid().getIcon() != null) {
+						IIcon texture = fluid.getFluid().getIcon();
+						double minU = texture.getInterpolatedU(0);
+						double maxU = texture.getInterpolatedU(16);
+						double minV = texture.getInterpolatedV(0);
+						double maxV = texture.getInterpolatedV(16);
+
+						int minX = 0;
+						int maxX = 0;
+						int maxY = 0;
+						int minY = 0;
+
+						switch (j) {
+							case 0:
+								minX = guiLeft + 59;
+								minY = guiTop + 15;
+								break;
+							case 1:
+								minX = guiLeft + 80;
+								minY = guiTop + 9;
+								break;
+							case 2:
+								minX = guiLeft + 101;
+								minY = guiTop + 15;
+								break;
+						}
+
+						maxX = minX + 16;
+						maxY = minY + 16;
+
+						t.addVertexWithUV(minX, minY, zLevel, maxU, maxV);
+						t.addVertexWithUV(minX, maxY, zLevel, maxU, minV);
+						t.addVertexWithUV(maxX, maxY, zLevel, minU, minV);
+						t.addVertexWithUV(maxX, minY, zLevel, minU, maxV);
+
+						j++;
 					}
-					
-					maxX = minX + 16;
-					maxY = minY + 16;
-					
-
-					t.addVertexWithUV(minX, minY, zLevel, maxU, maxV);
-					t.addVertexWithUV(minX, maxY, zLevel, maxU, minV);
-					t.addVertexWithUV(maxX, maxY, zLevel, minU, minV);
-					t.addVertexWithUV(maxX, minY, zLevel, minU, maxV);
-
-					j++;
 				}
 			}
 		}
@@ -167,7 +169,8 @@ public class GuiToolCharger extends GuiContainer {
 		int offsetBottom = guiTop + 12 + 50;
 		Tessellator t = Tessellator.instance;
 		t.startDrawingQuads();
-		for (int i = 0; i < TankCount; i++) {
+		int j = 0;
+		for (int i = 0; j < TankCount && i < charger.tanks.length; i++) {
 			TileEssenceTank tank = charger.getTank(i);
 			if (tank != null) {
 				double liquidHeight = charger.getScaledFluidAmount(i, 50);
@@ -183,19 +186,19 @@ public class GuiToolCharger extends GuiContainer {
 						int offsetSide;
 
 						if (i < 2) {
-							offsetSide = guiLeft + under2Offset + 1 + (i * 23);
+							offsetSide = guiLeft + under2Offset + 1 + (j * 23);
 							t.addVertexWithUV(offsetSide, offsetBottom - liquidHeight, zLevel, maxU, maxV);
 							t.addVertexWithUV(offsetSide, offsetBottom, zLevel, maxU, minV);
 							t.addVertexWithUV(offsetSide + 14, offsetBottom, zLevel, minU, minV);
 							t.addVertexWithUV(offsetSide + 14, offsetBottom - liquidHeight, zLevel, minU, maxV);
 						} else {
-							offsetSide = guiLeft + over2Offset + 1 + (i * 23);
+							offsetSide = guiLeft + over2Offset + 1 + (j * 23);
 							t.addVertexWithUV(offsetSide, offsetBottom - liquidHeight, zLevel, maxU, maxV);
 							t.addVertexWithUV(offsetSide, offsetBottom, zLevel, maxU, minV);
 							t.addVertexWithUV(offsetSide + 14, offsetBottom, zLevel, minU, minV);
 							t.addVertexWithUV(offsetSide + 14, offsetBottom - liquidHeight, zLevel, minU, maxV);
 						}
-
+						j++;
 					}
 				}
 			}
