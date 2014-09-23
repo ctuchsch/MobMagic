@@ -2,10 +2,10 @@ package ctuchsch.mods.mobmagic;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
+import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.crafting.RecipesCrafting;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidContainerRegistry;
@@ -22,6 +22,7 @@ import cpw.mods.fml.common.network.simpleimpl.SimpleNetworkWrapper;
 import cpw.mods.fml.common.registry.EntityRegistry;
 import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import ctuchsch.mods.mobmagic.blocks.BlockEssenceCreeper;
 import ctuchsch.mods.mobmagic.blocks.BlockEssenceEnderman;
 import ctuchsch.mods.mobmagic.blocks.BlockEssenceTank;
@@ -40,7 +41,11 @@ import ctuchsch.mods.mobmagic.items.ItemEssenceEndermanBucket;
 import ctuchsch.mods.mobmagic.items.ItemEssenceEndermanProjectile;
 import ctuchsch.mods.mobmagic.items.ItemEssenciteDust;
 import ctuchsch.mods.mobmagic.items.ItemEssenciteIngot;
+import ctuchsch.mods.mobmagic.items.ItemEssencitePanel;
+import ctuchsch.mods.mobmagic.items.ItemEssenciteStrut;
 import ctuchsch.mods.mobmagic.items.ItemFossil;
+import ctuchsch.mods.mobmagic.items.ItemInfusionFrame;
+import ctuchsch.mods.mobmagic.items.ItemInfusionPedestal;
 import ctuchsch.mods.mobmagic.items.ItemMagicDelinker;
 import ctuchsch.mods.mobmagic.items.ItemMagicLinker;
 import ctuchsch.mods.mobmagic.items.ItemMobWand;
@@ -96,6 +101,10 @@ public class MobMagic {
 	public static Item itemEssenciteIngot;
 	public static Item itemMagicLinker;
 	public static Item itemMagicDelinker;
+	public static Item itemEssencitePanel;
+	public static Item itemEssenciteStrut;
+	public static Item itemInfusionFrame;
+	public static Item itemInfusionPedestal;
 
 
 	
@@ -172,6 +181,18 @@ public class MobMagic {
 		
 		itemMagicDelinker = new ItemMagicDelinker().setUnlocalizedName("magicdelinker").setTextureName(this.MODID+":magicDelinker");
 		GameRegistry.registerItem(itemMagicDelinker, "itemmagicdelinker");
+		
+		itemEssencitePanel = new ItemEssencitePanel().setUnlocalizedName("essencitepanel").setTextureName(this.MODID+":essencitePanel");
+		GameRegistry.registerItem(itemEssencitePanel, "itemessencitepanel");
+		
+		itemEssenciteStrut = new ItemEssenciteStrut().setUnlocalizedName("essencitestrut").setTextureName(this.MODID+":essenciteStrut");
+		GameRegistry.registerItem(itemEssenciteStrut, "itemessencitestrut");
+		
+		itemInfusionFrame = new ItemInfusionFrame().setUnlocalizedName("infusionframe").setTextureName(this.MODID+":infusionFrame");
+		GameRegistry.registerItem(itemInfusionFrame, "itemfusionframe");
+		
+		itemInfusionPedestal = new ItemInfusionPedestal().setUnlocalizedName("infusionpedestal").setTextureName(this.MODID+":infusionpedestal");
+		GameRegistry.registerItem(itemInfusionPedestal, "itemfusionpedestal");
 	}
 
 	private void createAndRegisterBlocks() {
@@ -221,6 +242,16 @@ public class MobMagic {
 
 		// do nothing.
 	}
+	
+	// Custom Creative Tab for MobMagic
+	public static CreativeTabs tabCustom = new CreativeTabs("MobMagic") {
+		@Override
+		@SideOnly(Side.CLIENT)
+		public Item getTabIconItem() {
+			return MobMagic.itemStarshineCore;
+		}
+	};
+
 
 	
 }

@@ -23,7 +23,7 @@ public class ItemMobWand extends Item {
 
 	public ItemMobWand() {
 		super();
-		this.setCreativeTab(CreativeTabs.tabMisc);
+		this.setCreativeTab(MobMagic.tabCustom);
 		this.setMaxStackSize(1);
 	}
 

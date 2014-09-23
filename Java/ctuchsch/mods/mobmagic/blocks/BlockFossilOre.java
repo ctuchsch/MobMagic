@@ -13,7 +13,7 @@ public class BlockFossilOre extends Block {
 	public BlockFossilOre() {
 		super(Material.rock);
 		this.setHardness(1);
-		this.setCreativeTab(CreativeTabs.tabMisc);
+		this.setCreativeTab(MobMagic.tabCustom);
 		this.setHarvestLevel("pickaxe", 2);
 	}
 	

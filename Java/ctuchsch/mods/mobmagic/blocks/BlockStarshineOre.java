@@ -14,7 +14,7 @@ public class BlockStarshineOre extends Block {
 	public BlockStarshineOre() {
 		super(Material.rock);
 		this.setHardness(4);
-		this.setCreativeTab(CreativeTabs.tabMisc);
+		this.setCreativeTab(MobMagic.tabCustom);
 		this.setHarvestLevel("pickaxe", 2);
 
 	}

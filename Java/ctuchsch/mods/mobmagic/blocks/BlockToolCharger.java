@@ -23,7 +23,7 @@ public class BlockToolCharger extends BlockContainer {
 
 	public BlockToolCharger() {
 		super(Material.rock);
-		setCreativeTab(CreativeTabs.tabMisc);
+		setCreativeTab(MobMagic.tabCustom);
 		this.setHardness(4.0F);
 	}
 	

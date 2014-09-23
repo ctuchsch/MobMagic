@@ -4,9 +4,9 @@ import ctuchsch.mods.mobmagic.MobMagic;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 
-public class ItemEssenciteDust extends Item {
-
-	public ItemEssenciteDust() {
+public class ItemEssenciteStrut extends Item {
+	
+	public ItemEssenciteStrut() {
 		super();
 		this.setCreativeTab(MobMagic.tabCustom);
 	}
