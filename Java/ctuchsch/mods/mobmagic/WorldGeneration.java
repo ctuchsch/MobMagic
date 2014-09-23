@@ -22,7 +22,7 @@ public class WorldGeneration implements IWorldGenerator {
 		
 	}
 	private void GenerateOverworld(Random random, int x, int z, World world) {
-		this.addOreSpawn(MobMagic.blockEssenciteOre, world, random, x, z, 4, 10, 15, 0, 63);
+		this.addOreSpawn(MobMagic.blockEssenciteOre, world, random, x, z, 3, 6, 10, 0, 63);
 		this.addOreSpawn(MobMagic.blockFossilOre, world, random, x, z, 2, 6, 3, 0, 16);
 		this.addOreSpawn(MobMagic.blockStarshineOre, world, random, x, z, 2, 6, 2, 80, 255);
 	}
