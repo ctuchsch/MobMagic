@@ -26,7 +26,7 @@ import ctuchsch.mods.mobmagic.tileentities.TileEssenceTank;
 import ctuchsch.mods.mobmagic.tileentities.TileToolCharger;
 
 public class ClientProxy extends Proxy {
-	
+
 	@Override
 	public void registerRenderers() {
 		RenderingRegistry.registerEntityRenderingHandler(EntityProjectileCreeper.class, new RenderSnowball(
@@ -35,14 +35,18 @@ public class ClientProxy extends Proxy {
 				MobMagic.itemEssenceEndermanProjectile));
 		ModelEssenceTank essenceTankModel = new ModelEssenceTank();
 		ResourceLocation essenceTankTexture = new ResourceLocation(MobMagic.MODID + ":textures/models/TankEssence.png");
-		
-		ClientRegistry.bindTileEntitySpecialRenderer(TileEssenceTank.class, new RendererEssenceTank(essenceTankModel, essenceTankTexture));
-		MinecraftForgeClient.registerItemRenderer(Item.getItemFromBlock(MobMagic.blockEssenceTank), new ItemRendererEssenceTank(essenceTankModel, essenceTankTexture));
+
+		ClientRegistry.bindTileEntitySpecialRenderer(TileEssenceTank.class, new RendererEssenceTank(essenceTankModel,
+				essenceTankTexture));
+		MinecraftForgeClient.registerItemRenderer(Item.getItemFromBlock(MobMagic.blockEssenceTank),
+				new ItemRendererEssenceTank(essenceTankModel, essenceTankTexture));
 		ModelToolCharger toolChargerModel = new ModelToolCharger();
 		ResourceLocation toolChargerTexture = new ResourceLocation(MobMagic.MODID, "textures/models/ModelToolCharger.png");
-		ClientRegistry.bindTileEntitySpecialRenderer(TileToolCharger.class, new RendererToolCharger(toolChargerModel,toolChargerTexture));
-		MinecraftForgeClient.registerItemRenderer(Item.getItemFromBlock(MobMagic.blockToolCharger), new ItemRendererToolCharger(toolChargerModel, toolChargerTexture));
-				
+		ClientRegistry.bindTileEntitySpecialRenderer(TileToolCharger.class, new RendererToolCharger(toolChargerModel,
+				toolChargerTexture));
+		MinecraftForgeClient.registerItemRenderer(Item.getItemFromBlock(MobMagic.blockToolCharger),
+				new ItemRendererToolCharger(toolChargerModel, toolChargerTexture));
+
 	}
 
 	public static class Icons {
@@ -50,6 +54,10 @@ public class ClientProxy extends Proxy {
 		public static IIcon essenceCreeperStill;
 		public static IIcon essenceEndermanFlowing;
 		public static IIcon essenceEndermanStill;
+		public static IIcon essenceSpiderStill;
+		public static IIcon essenceSpiderFlowing;
+		public static IIcon essenceAcidStill;
+		public static IIcon essenceAcidFlowing;
 	}
 
 	@SubscribeEvent
@@ -59,10 +67,15 @@ public class ClientProxy extends Proxy {
 			Icons.essenceEndermanStill = event.map.registerIcon(MobMagic.MODID + ":essenceEndermanStill");
 			Icons.essenceCreeperFlowing = event.map.registerIcon(MobMagic.MODID + ":essenceCreeperFlowing");
 			Icons.essenceCreeperStill = event.map.registerIcon(MobMagic.MODID + ":essenceCreeperStill");
-			if (MobMagic.essenceEnderman != null)
-				MobMagic.essenceEnderman.setIcons(Icons.essenceEndermanStill, Icons.essenceEndermanFlowing);
-			if (MobMagic.essenceCreeper != null)
-				MobMagic.essenceCreeper.setIcons(Icons.essenceCreeperStill, Icons.essenceCreeperFlowing);
+			Icons.essenceSpiderFlowing = event.map.registerIcon(MobMagic.MODID + ":essenceSpiderFlowing");
+			Icons.essenceSpiderStill = event.map.registerIcon(MobMagic.MODID + ":essenceSpiderStill");
+			Icons.essenceAcidFlowing = event.map.registerIcon(MobMagic.MODID + ":essenceAcidFlowing");
+			Icons.essenceAcidStill = event.map.registerIcon(MobMagic.MODID + ":essenceAcidStill");
+			
+			MobMagic.essenceEnderman.setIcons(Icons.essenceEndermanStill, Icons.essenceEndermanFlowing);
+			MobMagic.essenceCreeper.setIcons(Icons.essenceCreeperStill, Icons.essenceCreeperFlowing);
+			MobMagic.essenceSpider.setIcons(Icons.essenceSpiderStill, Icons.essenceSpiderFlowing);
+			MobMagic.essenceAcid.setIcons(Icons.essenceAcidStill, Icons.essenceAcidFlowing);
 		}
 	}
 

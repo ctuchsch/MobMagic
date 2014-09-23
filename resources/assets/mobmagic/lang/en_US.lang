@@ -18,11 +18,14 @@ tile.blocktoolcharger.name=Tool Charger
 //Fluids
 fluid.essence.creeper=Creeper Essence
 fluid.essence.enderman=Enderman Essence
+fluid.essence.spider=Spider Essence
+fluid.essence.acid=Essence Acid
 
 //Items
-item.essencecreeperbucket.name=Bucket of Creeper Essence
-item.mobwand.name=Mob Wand
-item.essenceendermanbucket.name=Bucket of Enderman Essence
+item.essencecreeperbucket.name=Creeper Essence
+item.essenceendermanbucket.name=Enderman Essence
+item.essencespiderbucket.name=Spider Essence
+item.essenceacidbucket.name=Essence Acid
 item.mobwand.name=Mob Wand
 item.starshinecrystal.name=Starshine Crystal
 item.fossil.name=Fossil

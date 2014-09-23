@@ -24,8 +24,10 @@ import cpw.mods.fml.common.registry.EntityRegistry;
 import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import ctuchsch.mods.mobmagic.blocks.BlockEssenceAcid;
 import ctuchsch.mods.mobmagic.blocks.BlockEssenceCreeper;
 import ctuchsch.mods.mobmagic.blocks.BlockEssenceEnderman;
+import ctuchsch.mods.mobmagic.blocks.BlockEssenceSpider;
 import ctuchsch.mods.mobmagic.blocks.BlockEssenceTank;
 import ctuchsch.mods.mobmagic.blocks.BlockEssenciteBlock;
 import ctuchsch.mods.mobmagic.blocks.BlockEssenciteOre;
@@ -36,10 +38,12 @@ import ctuchsch.mods.mobmagic.entity.EntityProjectileCreeper;
 import ctuchsch.mods.mobmagic.entity.EntityProjectileEnderman;
 import ctuchsch.mods.mobmagic.handlers.BucketHandler;
 import ctuchsch.mods.mobmagic.handlers.GuiHandler;
+import ctuchsch.mods.mobmagic.items.ItemEssenceAcidBucket;
 import ctuchsch.mods.mobmagic.items.ItemEssenceCreeperBucket;
 import ctuchsch.mods.mobmagic.items.ItemEssenceCreeperProjectile;
 import ctuchsch.mods.mobmagic.items.ItemEssenceEndermanBucket;
 import ctuchsch.mods.mobmagic.items.ItemEssenceEndermanProjectile;
+import ctuchsch.mods.mobmagic.items.ItemEssenceSpiderBucket;
 import ctuchsch.mods.mobmagic.items.ItemEssenciteDust;
 import ctuchsch.mods.mobmagic.items.ItemEssenciteIngot;
 import ctuchsch.mods.mobmagic.items.ItemEssencitePanel;
@@ -84,6 +88,12 @@ public class MobMagic {
 	public static Item bucketEssenceCreeper;
 	public static Fluid essenceEnderman;
 	public static BlockEssenceEnderman blockEssenceEnderman;
+	public static Fluid essenceSpider;
+	public static BlockEssenceSpider blockEssenceSpider;
+	public static Item bucketEssenceSpider;
+	public static Fluid essenceAcid;
+	public static BlockEssenceAcid blockEssenceAcid;
+	public static Item bucketEssenceAcid;	
 	public static Block blockEssenceTank;
 	public static Block blockEssenciteOre;
 	public static Block blockEssenciteBlock;
@@ -154,6 +164,14 @@ public class MobMagic {
 		GameRegistry.registerItem(bucketEssenceEnderman, "essenceendermanbucket");
 		FluidContainerRegistry.registerFluidContainer(FluidRegistry.getFluidStack("essence.enderman", FluidContainerRegistry.BUCKET_VOLUME),new ItemStack(bucketEssenceEnderman),new ItemStack(Items.bucket));
 		
+		bucketEssenceSpider = new ItemEssenceSpiderBucket(blockEssenceSpider).setUnlocalizedName("essencespiderbucket").setContainerItem(Items.bucket).setTextureName(this.MODID+":bucketEssenceSpider");
+		GameRegistry.registerItem(bucketEssenceSpider, "essencespiderbucket");
+		FluidContainerRegistry.registerFluidContainer(FluidRegistry.getFluidStack("essence.spider", FluidContainerRegistry.BUCKET_VOLUME),new ItemStack(bucketEssenceSpider),new ItemStack(Items.bucket));
+		
+		bucketEssenceAcid = new ItemEssenceAcidBucket(blockEssenceAcid).setUnlocalizedName("essenceacidbucket").setContainerItem(Items.bucket).setTextureName(this.MODID+":bucketEssenceAcid");
+		GameRegistry.registerItem(bucketEssenceAcid, "essenceacidbucket");
+		FluidContainerRegistry.registerFluidContainer(FluidRegistry.getFluidStack("essence.acid", FluidContainerRegistry.BUCKET_VOLUME),new ItemStack(bucketEssenceAcid),new ItemStack(Items.bucket));
+		
 		mobWand = new ItemMobWand().setUnlocalizedName("mobwand").setTextureName(this.MODID + ":mobWand");
 		GameRegistry.registerItem(mobWand, "mobwand");	
 		
@@ -209,6 +227,14 @@ public class MobMagic {
 		blockEssenceEnderman.setBlockName("essenceenderman");
 		GameRegistry.registerBlock(blockEssenceEnderman,"essenceenderman");
 		
+		blockEssenceSpider = new BlockEssenceSpider(essenceSpider, Material.water);
+		blockEssenceSpider.setBlockName("essencespider");
+		GameRegistry.registerBlock(blockEssenceSpider, "essencespider");
+		
+		blockEssenceAcid = new BlockEssenceAcid(essenceAcid, Material.water);
+		blockEssenceAcid.setBlockName("essenceacid");
+		GameRegistry.registerBlock(blockEssenceAcid, "essenceAcid");
+		
 		blockEssenceTank = new BlockEssenceTank().setBlockName("blockessencetank");
 		GameRegistry.registerBlock(blockEssenceTank, "blockessencetank");
 		
@@ -235,6 +261,12 @@ public class MobMagic {
 		
 		essenceEnderman = new Fluid("essence.enderman");
 		FluidRegistry.registerFluid(essenceEnderman);
+		
+		essenceSpider = new Fluid("essence.spider");
+		FluidRegistry.registerFluid(essenceSpider);
+		
+		essenceAcid = new Fluid("essence.acid");
+		FluidRegistry.registerFluid(essenceAcid);
 	}
 	
 	private void createAndRegisterRecipes() {

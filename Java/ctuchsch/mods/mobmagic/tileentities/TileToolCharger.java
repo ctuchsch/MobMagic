@@ -16,6 +16,7 @@ import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemBucket;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
@@ -39,6 +40,7 @@ public class TileToolCharger extends TileEntity implements ISidedInventory {
 	public static final int ProcessingSpeed = 800;
 	private int TANKS_ALLOWED = 4;
 	public int processingSlot = -1;
+	public boolean craftingFinished = true;
 	public int processingTicks = 0;
 	public int[] fluidSlots = new int[MAX_FLUID_CRAFTING_SLOTS];
 
@@ -71,7 +73,7 @@ public class TileToolCharger extends TileEntity implements ISidedInventory {
 		for (int i = 0; i < fluidList.tagCount(); i++) {
 			NBTTagCompound compound = fluidList.getCompoundTagAt(i);
 			int j = compound.getInteger("Slot");
-			if (j >= 0 && j < fluidSlots.length) {				
+			if (j >= 0 && j < fluidSlots.length) {
 				if (compound.hasKey("FluidIndex"))
 					fluidSlots[j] = compound.getInteger("FluidIndex");
 			}
@@ -149,6 +151,10 @@ public class TileToolCharger extends TileEntity implements ISidedInventory {
 			itemEntity.age++;
 		if (processingSlot != -1) {
 			processingTicks++;
+			if (processingTicks >= (ProcessingSpeed * .80F) & !craftingFinished) {
+				this.CraftItem();
+				craftingFinished = true;
+			}
 			if (processingTicks >= ProcessingSpeed) {
 				processingSlot = -1;
 				processingTicks = 0;
@@ -408,8 +414,10 @@ public class TileToolCharger extends TileEntity implements ISidedInventory {
 				if (index < tanks.length) {
 					Location loc = tanks[index];
 					TileEntity testEntity = worldObj.getTileEntity(loc.x, loc.y, loc.z);
-					if (testEntity instanceof TileEssenceTank)
-						return (TileEssenceTank) testEntity;
+					if (testEntity != null) {
+						if (testEntity instanceof TileEssenceTank)
+							return (TileEssenceTank) testEntity;
+					}
 				}
 			}
 		}
@@ -445,7 +453,7 @@ public class TileToolCharger extends TileEntity implements ISidedInventory {
 		}
 		return retval;
 	}
-	
+
 	public void processSlot(int id) {
 		int slot;
 		if (!isProcessing()) {
@@ -457,16 +465,47 @@ public class TileToolCharger extends TileEntity implements ISidedInventory {
 				// are all the slots full?
 				slot = getEmptyProcessingSlot();
 				if (slot >= 0) {
-					fluidSlots[slot] = id;					
+					fluidSlots[slot] = id;
 				}
 			}
-		}		
+		}
 		markDirty();
 	}
-	
+
+	public int hasFluidCraftable(FluidStack fluid) {
+		for (int i = 0; i < fluidSlots.length; i++) {
+			TileEssenceTank tank = getCraftingSlotTank(i);
+			if (tank != null) {
+				if (tank.tank.getFluid() != null) {
+					if (tank.tank.getFluid().isFluidEqual(fluid)) {
+						if (tank.tank.getFluidAmount() >= fluid.amount)
+							return fluidSlots[i];
+					}
+				}
+			}
+		}
+		return -1;
+	}
+
+	private void CraftItem() {
+		// needed
+		FluidStack creeper = new FluidStack(MobMagic.essenceCreeper, 500);
+		FluidStack spider = new FluidStack(MobMagic.essenceSpider, 500);
+		int creeperSlot = hasFluidCraftable(creeper);
+		int spiderSlot = hasFluidCraftable(spider);
+		if (creeperSlot >= 0 && spiderSlot >= 0 && this.item.getItem() instanceof ItemBucket) {
+			FluidStack creeperAmountDrained = getTank(creeperSlot).tank.drain(500, true);
+			FluidStack spiderAmountDrained = getTank(spiderSlot).tank.drain(500, true);
+			if (creeperAmountDrained != null && spiderAmountDrained != null) {
+				if (creeperAmountDrained.amount == 500 && spiderAmountDrained.amount == 500)
+					changeItem(new ItemStack(MobMagic.bucketEssenceAcid));
+			}
+		}
+	}
+
 	public int getFirstValid() {
-		for(int i = 0; i < fluidSlots.length; i++){
-			if(fluidSlots[i] != -1)
+		for (int i = 0; i < fluidSlots.length; i++) {
+			if (fluidSlots[i] != -1)
 				return i;
 		}
 		return -1;
@@ -476,10 +515,13 @@ public class TileToolCharger extends TileEntity implements ISidedInventory {
 		int numSlots = getNumCraftingSlotsFilled();
 		// check crafting stuffs here
 		Random r = new Random();
-		if (numSlots > 1) 
+		if (numSlots > 1) {
+			craftingFinished = false;
 			this.processingSlot = r.nextInt(numSlots);
-		if(numSlots == 1 && getFirstValid() != -1)
+		} else if (numSlots == 1 && getFirstValid() != -1) {
+			craftingFinished = false;
 			this.processingSlot = fluidSlots[getFirstValid()];
-		
+		}
+
 	}
 }
