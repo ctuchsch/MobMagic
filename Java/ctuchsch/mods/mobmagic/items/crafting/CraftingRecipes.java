@@ -61,7 +61,19 @@ public class CraftingRecipes {
 				"xxx",
 				'x', new ItemStack(Blocks.stone_slab, 1, 7));
 		
+		//Magic Linker
+		GameRegistry.addRecipe(new ItemStack(MobMagic.itemMagicLinker),
+				" xx",
+				" xx",
+				"x  ",
+				'x', MobMagic.itemEssenciteIngot);
 		
+		//Magic Delinker
+		GameRegistry.addRecipe(new ItemStack(MobMagic.itemMagicDelinker), 
+				" x ",
+				"x x",
+				" x ",
+				'x', MobMagic.itemEssenciteIngot);
 		
 		//SHAPELESS RECIPES----
 		
