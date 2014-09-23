@@ -185,7 +185,7 @@ public class GuiToolCharger extends GuiContainer {
 
 						int offsetSide;
 
-						if (i < 2) {
+						if (j < 2) {
 							offsetSide = guiLeft + under2Offset + 1 + (j * 23);
 							t.addVertexWithUV(offsetSide, offsetBottom - liquidHeight, zLevel, maxU, maxV);
 							t.addVertexWithUV(offsetSide, offsetBottom, zLevel, maxU, minV);
