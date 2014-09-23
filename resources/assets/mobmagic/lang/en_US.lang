@@ -37,4 +37,4 @@ item.infusionframe.name=Infusion Frame
 item.infusionpedestal.name=Infusion Pedestal
 
 //Creative Tab
-itemGroup.tabName=MobMagic
+itemGroup.MobMagic=Mob Magic
