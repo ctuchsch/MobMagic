@@ -75,9 +75,21 @@ public class CraftingRecipes {
 				" x ",
 				'x', MobMagic.itemEssenciteIngot);
 		
+		//Linking Core
+		GameRegistry.addRecipe(new ItemStack(MobMagic.itemLinkingCore),
+				"x y",
+				" o ",
+				"y x",
+				'x', MobMagic.itemMagicLinker,
+				'y', MobMagic.itemMagicDelinker,
+				'o', MobMagic.itemFossil);
+		
 		//SHAPELESS RECIPES----
 		
 		//Essencite Ingots (from block)
 		GameRegistry.addShapelessRecipe(new ItemStack(MobMagic.itemEssenciteIngot, 9), MobMagic.blockEssenciteBlock);
+		
+		//Tool Charger
+		GameRegistry.addShapelessRecipe(new ItemStack(MobMagic.blockToolCharger), MobMagic.itemInfusionFrame, MobMagic.itemInfusionPedestal, MobMagic.itemLinkingCore);
 	}
 }

@@ -10,6 +10,7 @@ import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidContainerRegistry;
 import net.minecraftforge.fluids.FluidRegistry;
+import assets.mobmagic.textures.items.ItemLinkingCore;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;
 import cpw.mods.fml.common.Mod.Instance;
@@ -105,13 +106,14 @@ public class MobMagic {
 	public static Item itemEssenciteStrut;
 	public static Item itemInfusionFrame;
 	public static Item itemInfusionPedestal;
+	public static Item itemLinkingCore;
 
 
 	
 	@EventHandler
 	public void preInit(FMLPreInitializationEvent event) {
-
-		// do nothing.
+		
+		GameRegistry.registerWorldGenerator(new WorldGeneration(), 1);
 	}
 	
 	@EventHandler
@@ -193,6 +195,9 @@ public class MobMagic {
 		
 		itemInfusionPedestal = new ItemInfusionPedestal().setUnlocalizedName("infusionpedestal").setTextureName(this.MODID+":infusionpedestal");
 		GameRegistry.registerItem(itemInfusionPedestal, "itemfusionpedestal");
+		
+		itemLinkingCore = new ItemLinkingCore().setUnlocalizedName("linkingcore").setTextureName(this.MODID+":linkingcore");
+		GameRegistry.registerItem(itemLinkingCore, "itemlinkingcore");
 	}
 
 	private void createAndRegisterBlocks() {
