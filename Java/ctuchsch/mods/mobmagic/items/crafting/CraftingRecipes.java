@@ -48,7 +48,7 @@ public class CraftingRecipes {
 		//Essence Infuser Frame
 		GameRegistry.addRecipe(new ItemStack(MobMagic.itemInfusionFrame),
 				"xox",
-				"o o",
+				"ooo",
 				"xyx",
 				'x', MobMagic.itemEssenciteStrut,
 				'o', Blocks.glass_pane,
