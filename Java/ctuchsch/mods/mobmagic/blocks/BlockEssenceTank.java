@@ -39,7 +39,7 @@ public class BlockEssenceTank extends BlockContainer {
 
 	public BlockEssenceTank() {
 		super(Material.rock);
-		this.setCreativeTab(CreativeTabs.tabMisc);
+		this.setCreativeTab(MobMagic.tabCustom);
 		this.setHardness(4.0F);
 	}
 

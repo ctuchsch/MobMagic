@@ -22,7 +22,7 @@ public class BlockEssenceCreeper extends BlockFluidClassic {
 
 	public BlockEssenceCreeper(Fluid fluid, Material material) {
 		super(fluid, material);
-		setCreativeTab(CreativeTabs.tabMisc);
+		setCreativeTab(MobMagic.tabCustom);
 	}
 	
 	@Override

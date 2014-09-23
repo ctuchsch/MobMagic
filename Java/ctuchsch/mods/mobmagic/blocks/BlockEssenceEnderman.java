@@ -21,7 +21,7 @@ public class BlockEssenceEnderman extends BlockFluidClassic {
 
 	public BlockEssenceEnderman(Fluid fluid, Material material) {
 		super(fluid, material);
-		setCreativeTab(CreativeTabs.tabMisc);
+		setCreativeTab(MobMagic.tabCustom);
 	}
 	
 	@Override

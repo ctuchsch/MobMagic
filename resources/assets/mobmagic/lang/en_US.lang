@@ -13,6 +13,7 @@ tile.blockessenciteblock.name=Block of Essencite
 tile.essencecreeper.name=Creeper Essence
 tile.essenceenderman.name=Enderman Essence
 tile.blockessencetank.name=Essence Tank 
+tile.blocktoolcharger.name=Tool Charger
 
 //Fluids
 fluid.essence.creeper=Creeper Essence
@@ -30,4 +31,10 @@ item.essenciteingot.name=Essencite Ingot
 item.essencitedust.name=Essencite Dust
 item.magiclinker.name=Magic Linker
 item.magicdelinker.name=Magic Delinker
+item.essencitepanel.name=Essencite Panel
+item.essencitestrut.name=Essencite Strut
+item.infusionframe.name=Infusion Frame
+item.infusionpedestal.name=Infusion Pedestal
 
+//Creative Tab
+itemGroup.MobMagic=Mob Magic

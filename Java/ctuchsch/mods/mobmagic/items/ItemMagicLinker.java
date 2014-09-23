@@ -22,7 +22,7 @@ public class ItemMagicLinker extends Item {
 
 	public ItemMagicLinker() {
 		super();
-		this.setCreativeTab(CreativeTabs.tabMisc);
+		this.setCreativeTab(MobMagic.tabCustom);
 		this.setMaxStackSize(1);
 	}
 
