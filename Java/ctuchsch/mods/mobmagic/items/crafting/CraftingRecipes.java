@@ -40,9 +40,9 @@ public class CraftingRecipes {
 		
 		//Essencite Strut
 		GameRegistry.addRecipe(new ItemStack(MobMagic.itemEssenciteStrut, 3),
-				"x",
-				"x",
-				"x",
+				"x x",
+				"x x",
+				"x x",
 				'x', MobMagic.itemEssenciteIngot);
 		
 		//Essence Infuser Frame
