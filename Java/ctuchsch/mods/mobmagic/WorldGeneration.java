@@ -22,33 +22,27 @@ public class WorldGeneration implements IWorldGenerator {
 		
 	}
 	private void GenerateOverworld(Random random, int x, int z, World world) {
-		this.addOreSpawn(MobMagic.blockEssenciteOre, world, random, x, z, 4, 10, 30, 0, 63);
-		this.addOreSpawn(MobMagic.blockFossilOre, world, random, x, z, 2, 6, 10, 0, 16);
-		this.addMountainOreSpawn(MobMagic.blockStarshineOre, world, random, x, z, 2, 6, 30, 80, 255);
+		this.addOreSpawn(MobMagic.blockEssenciteOre, world, random, x, z, 4, 10, 15, 0, 63);
+		this.addOreSpawn(MobMagic.blockFossilOre, world, random, x, z, 2, 6, 3, 0, 16);
+		this.addOreSpawn(MobMagic.blockStarshineOre, world, random, x, z, 2, 6, 2, 80, 255);
 	}
 		
 	private void GenerateEnd(Random random, int x, int z, World world) {
-		//no End spawn currently
+		//no End spawn currently, so do nothing
 	}
 		
 	private void GenerateNether(Random random, int x, int z, World world) {
-		//no Nether spawn currently
+		//no Nether spawn currently, so do nothing
 	}
 		
 	public void addOreSpawn(Block block, World world, Random random, int blockXPos, int blockZPos, int minVeinSize, int maxVeinSize, int chancesToSpawn, int minY, int maxY) {
 		
 		WorldGenMinable minable = new WorldGenMinable(block, (minVeinSize + random.nextInt(maxVeinSize)), Blocks.stone);
 		MinableForLoop(minable, world, random, blockXPos, blockZPos, minVeinSize, maxVeinSize, chancesToSpawn, minY, maxY);
+		
+		WorldGenMinable desertMinable = new WorldGenMinable(block, (minVeinSize + random.nextInt(maxVeinSize)), Blocks.sand);
+		MinableForLoop(minable, world, random, blockXPos, blockZPos, minVeinSize, maxVeinSize, chancesToSpawn, minY, maxY);
 
-	}
-	
-	public void addMountainOreSpawn(Block block, World world, Random random, int blockXPos, int blockZPos, int minVeinSize, int maxVeinSize, int chancesToSpawn, int minY, int maxY){
-		
-		WorldGenMinable grassReplace = new WorldGenMinable(block, (minVeinSize + random.nextInt(maxVeinSize)), Blocks.grass);
-		WorldGenMinable dirtReplace = new WorldGenMinable(block, (minVeinSize + random.nextInt(maxVeinSize)), Blocks.dirt);
-		
-		MinableForLoop(grassReplace, world, random, blockXPos, blockZPos, minVeinSize, maxVeinSize, chancesToSpawn, minY, maxY);
-		MinableForLoop(dirtReplace, world, random, blockXPos, blockZPos, minVeinSize, maxVeinSize, chancesToSpawn, minY, maxY);
 	}
 	
 	public void MinableForLoop(WorldGenMinable minable, World world, Random random, int blockXPos, int blockZPos, int minVeinSize, int maxVeinSize, int chancesToSpawn, int minY, int maxY) {
