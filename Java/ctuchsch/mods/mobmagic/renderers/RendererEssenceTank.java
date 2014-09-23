@@ -87,9 +87,6 @@ public class RendererEssenceTank extends TileEntitySpecialRenderer {
 			double contOffset = 4;			
 			
 			FluidStack fluid = te.tank.getFluid();
-			if (fluid.getFluid().getIcon() == null) {
-				return;
-			}
 			IIcon texture = fluid.getFluid().getIcon();
 			
 			
