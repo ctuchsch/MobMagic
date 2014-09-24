@@ -39,7 +39,8 @@ public class TileToolCharger extends TileEntity implements ISidedInventory {
 	private static final int MAX_TANKS = 4;
 	public static final int MAX_FLUID_CRAFTING_SLOTS = 3;
 	public static final int bubbleSpeed = 20;
-	public static final int ProcessingSpeed = 800;
+	public int ProcessingSpeed = 800; // default should always be overridden by
+										// recipie
 	public int processingSlot = -1;
 	public boolean craftingFinished = true;
 	public int processingTicks = 0;
@@ -67,6 +68,8 @@ public class TileToolCharger extends TileEntity implements ISidedInventory {
 			processingSlot = nbt.getInteger("ProcessingSlot");
 			if (nbt.hasKey("ProcessingTicks"))
 				processingTicks = nbt.getInteger("ProcessingTicks");
+			if(nbt.hasKey("ProcessingSpeed"))
+				ProcessingSpeed = nbt.getInteger("ProcessingSpeed");
 		}
 
 		NBTTagList fluidList = nbt.getTagList("FluidList", 10);
@@ -100,6 +103,7 @@ public class TileToolCharger extends TileEntity implements ISidedInventory {
 		if (processingSlot != -1) {
 			nbt.setInteger("ProcessingSlot", processingSlot);
 			nbt.setInteger("ProcessingTicks", processingTicks);
+			nbt.setInteger("ProcessingSpeed", ProcessingSpeed);
 		}
 
 		NBTTagList fluidList = new NBTTagList();
@@ -152,14 +156,13 @@ public class TileToolCharger extends TileEntity implements ISidedInventory {
 			itemEntity.age++;
 		if (processingSlot != -1) {
 			processingTicks++;
-			if (processingTicks >= (ProcessingSpeed * .80F) & !craftingFinished ) {
+			if (processingTicks >= (ProcessingSpeed * .80F) & !craftingFinished && !worldObj.isRemote) {
 				this.CraftItem();
 				craftingFinished = true;
 			}
 			if (processingTicks >= ProcessingSpeed) {
 				processingSlot = -1;
 				processingTicks = 0;
-				clearProcessingSlots();
 			}
 		}
 	}
@@ -265,12 +268,12 @@ public class TileToolCharger extends TileEntity implements ISidedInventory {
 		}
 		return null;
 	}
-	
+
 	public List<Integer> getActiveLinks() {
 		List<Integer> retval = new ArrayList<Integer>();
-		for(int i = 0; i< MAX_TANKS; i++) {
+		for (int i = 0; i < MAX_TANKS; i++) {
 			TileEssenceTank tank = getTank(i);
-			if(tank != null && tank.tank.getFluidAmount() > 0)
+			if (tank != null && tank.tank.getFluidAmount() > 0)
 				retval.add(i);
 		}
 		return retval;
@@ -302,13 +305,14 @@ public class TileToolCharger extends TileEntity implements ISidedInventory {
 		ItemStack retval;
 		if (slot == 0) {
 			retval = item;
-			if (this.item.stackSize <= num)
+			if (this.item.stackSize <= num) {
 				changeItem(null);
-			else {
+			} else {
 				retval = item.splitStack(num);
 
-				if (item.stackSize == 0)
+				if (item.stackSize == 0) {
 					changeItem(null);
+				}
 			}
 			return retval;
 		}
@@ -506,20 +510,21 @@ public class TileToolCharger extends TileEntity implements ISidedInventory {
 	private void CraftItem() {
 		InfusionRecipie result = getCraftingResult();
 		if (result != null) {
-			for (FluidStack f : result.fluids) {
+			List<FluidStack> myFluids = result.getFluids();
+			for (FluidStack f : myFluids) {
 				boolean stepSuccess = false;
 				// drain tanks
 				TileEssenceTank tank = getTankByFluid(f);
 				if (tank != null) {
 					FluidStack drainResult = tank.tank.drain(f.amount, true);
-					//tank.markDirty();
+					tank.markDirty();
 					if (drainResult.isFluidStackIdentical(f))
 						stepSuccess = true;
 				}
 				if (!stepSuccess)
 					return;
 			}
-			changeItem(result.outputItem);
+			changeItem(result.getOutpuItem());
 		}
 	}
 
@@ -531,17 +536,19 @@ public class TileToolCharger extends TileEntity implements ISidedInventory {
 		return -1;
 	}
 
-	public void startProcessing() {
-		if (canCraftItem()) {
-			craftingFinished = false;
-			this.processingSlot = fluidSlots[getFirstValid()];
-			markDirty();
-		}
-	}
-	
 	@Override
 	public void markDirty() {
 		super.markDirty();
 		worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
+	}
+
+	public void startProcessing() {
+		InfusionRecipie r = getCraftingResult();
+		if (r != null) {
+			this.ProcessingSpeed = r.getDuration();
+			craftingFinished = false;
+			this.processingSlot = fluidSlots[getFirstValid()];
+			markDirty();
+		}
 	}
 }

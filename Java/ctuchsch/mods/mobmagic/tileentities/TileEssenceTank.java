@@ -52,4 +52,10 @@ public class TileEssenceTank extends TileEntity {
 	public double getScaledFluidLevel(int segments) {
 		return tank.getFluidAmount() * segments / TANK_SIZE;
 	}
+	
+	@Override
+	public void markDirty() {
+		super.markDirty();
+		worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
+	}
 }

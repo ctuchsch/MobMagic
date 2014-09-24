@@ -98,6 +98,7 @@ public class CraftingRecipes {
 	public static void addInfusionRecipe() {
 		InfusionCraftingHelper.addInfusionRecipe(new ItemStack(MobMagic.bucketEssenceAcid), 
 				new ItemStack(Items.bucket), 
+				250,
 				new FluidStack(MobMagic.essenceCreeper,500), 
 				new FluidStack(MobMagic.essenceSpider,500));
 	}

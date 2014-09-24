@@ -9,15 +9,15 @@ import net.minecraft.item.ItemStack;
 import net.minecraftforge.fluids.FluidStack;
 
 public class InfusionRecipie {
-	public List<FluidStack> fluids = new ArrayList<FluidStack>();
-	public ItemStack inputItem;
-	public int duration = 800;
-	public ItemStack outputItem;
+	private List<FluidStack> fluids = new ArrayList<FluidStack>();
+	private ItemStack inputItem;
+	private int duration = 800;
+	private ItemStack outputItem;
 
 	public InfusionRecipie(ItemStack outputItem, ItemStack inputItem, int duration, FluidStack... fluidStacks) {
 		this(outputItem, inputItem);
 		this.addFluids(fluidStacks);
-		if (duration > 4)
+		if (duration > 80)
 			this.duration = duration;
 	}
 
@@ -119,5 +119,29 @@ public class InfusionRecipie {
 			}
 		}
 		return false;
+	}
+	
+	public ItemStack getInputItem() {
+		return this.inputItem.copy();
+	}
+	
+	public ItemStack getOutpuItem() {
+		return this.outputItem.copy();
+	}
+	
+	public void setDuration(int duration) {
+		if(duration > 80)
+			this.duration = duration;
+	}
+	
+	public int getDuration() {
+		return this.duration;
+	}
+	
+	public List<FluidStack> getFluids() {
+		List<FluidStack> retval = new ArrayList<FluidStack>();
+		for(FluidStack f : this.fluids)
+			retval.add(f);
+		return retval;
 	}
 }

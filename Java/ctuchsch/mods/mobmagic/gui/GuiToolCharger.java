@@ -44,11 +44,6 @@ public class GuiToolCharger extends GuiContainer {
 
 	@Override
 	protected void actionPerformed(GuiButton b) {
-		if (b.id < 100)
-			charger.processSlot(b.id);
-		if (b.id >= 100)
-			charger.startProcessing();
-
 		MessageInfuserGuiButton message = new MessageInfuserGuiButton(b.id, charger.xCoord, charger.yCoord, charger.zCoord);
 		MobMagic.infuserButtonChannel.sendToServer(message);
 	}
