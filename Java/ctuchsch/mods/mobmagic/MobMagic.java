@@ -101,7 +101,7 @@ public class MobMagic {
 	public static Block blockStarshineOre;
 	public static Block blockToolCharger;
 	public static Item bucketEssenceEnderman;
-	public static Item mobWand;
+	public static Item itemMobWand;
 	public static Item entityProjectileCreeper;
 	public static Item itemEssenceCreeperProjectile;
 	public static Item itemEssenceEndermanProjectile;
@@ -172,8 +172,8 @@ public class MobMagic {
 		GameRegistry.registerItem(bucketEssenceAcid, "essenceacidbucket");
 		FluidContainerRegistry.registerFluidContainer(FluidRegistry.getFluidStack("essence.acid", FluidContainerRegistry.BUCKET_VOLUME),new ItemStack(bucketEssenceAcid),new ItemStack(Items.bucket));
 		
-		mobWand = new ItemMobWand().setUnlocalizedName("mobwand").setTextureName(this.MODID + ":mobWand");
-		GameRegistry.registerItem(mobWand, "mobwand");	
+		itemMobWand = new ItemMobWand().setUnlocalizedName("mobwand").setTextureName(this.MODID + ":mobWand");
+		GameRegistry.registerItem(itemMobWand, "mobwand");	
 		
 		itemEssenceCreeperProjectile = new ItemEssenceCreeperProjectile().setUnlocalizedName("essencecreeperprojectile").setTextureName(this.MODID+":orbCreeper");
 		GameRegistry.registerItem(itemEssenceCreeperProjectile,"essencecreeperprojectile");
@@ -184,7 +184,7 @@ public class MobMagic {
 		itemStarshineCrystal = new ItemStarshineCrystal().setUnlocalizedName("starshinecrystal").setTextureName(this.MODID + ":starshineCrystal");
 		GameRegistry.registerItem(itemStarshineCrystal, "starshinecrystal");
 		
-		itemStarshineCore = new ItemStarshineCore().setUnlocalizedName("starshinecore").setTextureName(this.MODID + ":starshineCore");
+		itemStarshineCore = new ItemStarshineCore(10000).setUnlocalizedName("starshinecore").setTextureName(this.MODID + ":starshineCore");
 		GameRegistry.registerItem(itemStarshineCore, "starshinecore");
 		
 		itemFossil = new ItemFossil().setUnlocalizedName("fossil").setTextureName(this.MODID + ":fossil");

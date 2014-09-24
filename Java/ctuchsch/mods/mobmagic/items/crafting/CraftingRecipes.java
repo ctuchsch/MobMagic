@@ -27,7 +27,7 @@ public class CraftingRecipes {
 				'x', Blocks.wooden_slab, 'o', Blocks.glass);
 		
 		//Mob Wand
-		GameRegistry.addRecipe(new ItemStack(MobMagic.mobWand),
+		GameRegistry.addRecipe(new ItemStack(MobMagic.itemMobWand),
 				" xx",
 				" ox",
 				"o  ",
