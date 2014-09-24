@@ -3,6 +3,7 @@ package ctuchsch.mods.mobmagic.items.crafting;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
+import net.minecraftforge.fluids.FluidStack;
 import cpw.mods.fml.common.registry.GameRegistry;
 import ctuchsch.mods.mobmagic.MobMagic;
 
@@ -91,5 +92,13 @@ public class CraftingRecipes {
 		
 		//Tool Charger
 		GameRegistry.addShapelessRecipe(new ItemStack(MobMagic.blockToolCharger), MobMagic.itemInfusionFrame, MobMagic.itemInfusionPedestal, MobMagic.itemLinkingCore);
+				
+	}
+	
+	public static void addInfusionRecipe() {
+		InfusionCraftingHelper.addInfusionRecipe(new ItemStack(MobMagic.bucketEssenceAcid), 
+				new ItemStack(Items.bucket), 
+				new FluidStack(MobMagic.essenceCreeper,500), 
+				new FluidStack(MobMagic.essenceSpider,500));
 	}
 }

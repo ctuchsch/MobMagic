@@ -6,6 +6,8 @@ import java.util.Random;
 
 import ctuchsch.mods.mobmagic.MobMagic;
 import ctuchsch.mods.mobmagic.fluids.TankEssence;
+import ctuchsch.mods.mobmagic.items.crafting.InfusionCraftingHelper;
+import ctuchsch.mods.mobmagic.items.crafting.InfusionRecipie;
 import ctuchsch.mods.mobmagic.utils.ChatUtils;
 import ctuchsch.mods.mobmagic.utils.Location;
 import net.minecraft.client.Minecraft;
@@ -35,7 +37,7 @@ public class TileToolCharger extends TileEntity implements ISidedInventory {
 	private String localizedName;
 	private static final double MAX_LINK_DIST = 100D;
 	private static final int MAX_TANKS = 4;
-	private static final int MAX_FLUID_CRAFTING_SLOTS = 3;
+	public static final int MAX_FLUID_CRAFTING_SLOTS = 3;
 	public static final int bubbleSpeed = 20;
 	public static final int ProcessingSpeed = 800;
 	private int TANKS_ALLOWED = 4;
@@ -472,34 +474,59 @@ public class TileToolCharger extends TileEntity implements ISidedInventory {
 		markDirty();
 	}
 
-	public int hasFluidCraftable(FluidStack fluid) {
+	public TileEssenceTank getTankByFluid(FluidStack fluid) {
 		for (int i = 0; i < fluidSlots.length; i++) {
 			TileEssenceTank tank = getCraftingSlotTank(i);
 			if (tank != null) {
 				if (tank.tank.getFluid() != null) {
 					if (tank.tank.getFluid().isFluidEqual(fluid)) {
-						if (tank.tank.getFluidAmount() >= fluid.amount)
-							return fluidSlots[i];
+						if (tank.tank.getFluidAmount() >= fluid.amount) {
+							return getCraftingSlotTank(i);
+						}
 					}
 				}
 			}
 		}
-		return -1;
+		return null;
+	}
+
+	private List<FluidStack> getCraftingFluids() {
+		List<FluidStack> retval = new ArrayList<FluidStack>();
+		for (int i = 0; i < this.fluidSlots.length; i++) {
+			TileEssenceTank tank = this.getCraftingSlotTank(i);
+			if (tank != null) {
+				retval.add(tank.tank.getFluid());
+			}
+		}
+		return retval;
+	}
+
+	private boolean canCraftItem() {
+		return this.getCraftingResult() != null;
+	}
+
+	private InfusionRecipie getCraftingResult() {
+		List<FluidStack> craftingStacks = getCraftingFluids();
+		InfusionRecipie result = InfusionCraftingHelper.getCraftingResult(this.item, craftingStacks);
+		return result;
 	}
 
 	private void CraftItem() {
-		// needed
-		FluidStack creeper = new FluidStack(MobMagic.essenceCreeper, 500);
-		FluidStack spider = new FluidStack(MobMagic.essenceSpider, 500);
-		int creeperSlot = hasFluidCraftable(creeper);
-		int spiderSlot = hasFluidCraftable(spider);
-		if (creeperSlot >= 0 && spiderSlot >= 0 && this.item.getItem() instanceof ItemBucket) {
-			FluidStack creeperAmountDrained = getTank(creeperSlot).tank.drain(500, true);
-			FluidStack spiderAmountDrained = getTank(spiderSlot).tank.drain(500, true);
-			if (creeperAmountDrained != null && spiderAmountDrained != null) {
-				if (creeperAmountDrained.amount == 500 && spiderAmountDrained.amount == 500)
-					changeItem(new ItemStack(MobMagic.bucketEssenceAcid));
+		InfusionRecipie result = getCraftingResult();
+		if (result != null) {
+			for (FluidStack f : result.fluids) {
+				boolean stepSuccess = false;
+				// drain tanks
+				TileEssenceTank tank = getTankByFluid(f);
+				if (tank != null) {
+					FluidStack drainResult = tank.tank.drain(f.amount, true);
+					if (drainResult.isFluidStackIdentical(f))
+						stepSuccess = true;
+				}
+				if (!stepSuccess)
+					return;
 			}
+			changeItem(result.outputItem);
 		}
 	}
 
@@ -512,16 +539,9 @@ public class TileToolCharger extends TileEntity implements ISidedInventory {
 	}
 
 	public void startProcessing() {
-		int numSlots = getNumCraftingSlotsFilled();
-		// check crafting stuffs here
-		Random r = new Random();
-		if (numSlots > 1) {
-			craftingFinished = false;
-			this.processingSlot = r.nextInt(numSlots);
-		} else if (numSlots == 1 && getFirstValid() != -1) {
+		if (canCraftItem()) {
 			craftingFinished = false;
 			this.processingSlot = fluidSlots[getFirstValid()];
 		}
-
 	}
 }

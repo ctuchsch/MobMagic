@@ -271,7 +271,8 @@ public class MobMagic {
 	
 	private void createAndRegisterRecipes() {
 		CraftingRecipes.addRecipes();
-		SmeltingRecipes.addRecipes();
+		CraftingRecipes.addInfusionRecipe();
+		SmeltingRecipes.addRecipes();		
 	}
 
 	@EventHandler
