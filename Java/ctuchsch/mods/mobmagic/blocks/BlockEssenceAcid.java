@@ -6,6 +6,9 @@ import ctuchsch.mods.mobmagic.MobMagic;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
@@ -47,6 +50,13 @@ public class BlockEssenceAcid extends BlockFluidClassic {
 	public boolean displaceIfPossible(World world, int x, int y, int z) {
 		if(world.getBlock(x,y,z).getMaterial().isLiquid()) return false;
 		return super.displaceIfPossible(world, x, y, z);
+	}
+	
+	@Override
+	public void onEntityCollidedWithBlock(World world, int x, int y, int z, Entity entity) {
+		if(entity instanceof EntityLivingBase) {
+			((EntityLivingBase)entity).addPotionEffect(new PotionEffect(19,120,2,false));
+		}
 	}
 
 }
