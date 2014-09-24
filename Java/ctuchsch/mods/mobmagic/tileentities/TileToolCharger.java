@@ -40,7 +40,6 @@ public class TileToolCharger extends TileEntity implements ISidedInventory {
 	public static final int MAX_FLUID_CRAFTING_SLOTS = 3;
 	public static final int bubbleSpeed = 20;
 	public static final int ProcessingSpeed = 800;
-	private int TANKS_ALLOWED = 4;
 	public int processingSlot = -1;
 	public boolean craftingFinished = true;
 	public int processingTicks = 0;
@@ -153,7 +152,7 @@ public class TileToolCharger extends TileEntity implements ISidedInventory {
 			itemEntity.age++;
 		if (processingSlot != -1) {
 			processingTicks++;
-			if (processingTicks >= (ProcessingSpeed * .80F) & !craftingFinished) {
+			if (processingTicks >= (ProcessingSpeed * .80F) & !craftingFinished ) {
 				this.CraftItem();
 				craftingFinished = true;
 			}
@@ -165,13 +164,8 @@ public class TileToolCharger extends TileEntity implements ISidedInventory {
 		}
 	}
 
-	public void setAllowed(int Allowed) {
-		if (Allowed <= MAX_TANKS)
-			this.TANKS_ALLOWED = Allowed;
-	}
-
 	private int getEmptyLink() {
-		for (int i = 0; i < this.TANKS_ALLOWED; i++) {
+		for (int i = 0; i < this.MAX_TANKS; i++) {
 			if (this.tanks[i] == null)
 				return i;
 		}
@@ -202,7 +196,7 @@ public class TileToolCharger extends TileEntity implements ISidedInventory {
 
 	private int getLocation(int x, int y, int z) {
 		Location l;
-		for (int i = 0; i < this.TANKS_ALLOWED; i++) {
+		for (int i = 0; i < this.MAX_TANKS; i++) {
 			l = tanks[i];
 			if (l != null) {
 				if (l.x == x && l.y == y && l.z == z)
@@ -261,7 +255,7 @@ public class TileToolCharger extends TileEntity implements ISidedInventory {
 	}
 
 	public TileEssenceTank getTank(int slot) {
-		if (slot <= TANKS_ALLOWED) {
+		if (slot <= MAX_TANKS) {
 			Location l = tanks[slot];
 			if (l != null) {
 				if (validateTank(l.x, l.y, l.z)) {
@@ -271,15 +265,13 @@ public class TileToolCharger extends TileEntity implements ISidedInventory {
 		}
 		return null;
 	}
-
-	public int getNumActiveLinks() {
-		int retval = 0;
-		for (int i = 0; i < TANKS_ALLOWED; i++) {
-			Location l = tanks[i];
-			if (l != null) {
-				if (validateTank(l.x, l.y, l.z))
-					retval++;
-			}
+	
+	public List<Integer> getActiveLinks() {
+		List<Integer> retval = new ArrayList<Integer>();
+		for(int i = 0; i< MAX_TANKS; i++) {
+			TileEssenceTank tank = getTank(i);
+			if(tank != null && tank.tank.getFluidAmount() > 0)
+				retval.add(i);
 		}
 		return retval;
 	}
@@ -520,6 +512,7 @@ public class TileToolCharger extends TileEntity implements ISidedInventory {
 				TileEssenceTank tank = getTankByFluid(f);
 				if (tank != null) {
 					FluidStack drainResult = tank.tank.drain(f.amount, true);
+					//tank.markDirty();
 					if (drainResult.isFluidStackIdentical(f))
 						stepSuccess = true;
 				}
@@ -542,6 +535,13 @@ public class TileToolCharger extends TileEntity implements ISidedInventory {
 		if (canCraftItem()) {
 			craftingFinished = false;
 			this.processingSlot = fluidSlots[getFirstValid()];
+			markDirty();
 		}
+	}
+	
+	@Override
+	public void markDirty() {
+		super.markDirty();
+		worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
 	}
 }

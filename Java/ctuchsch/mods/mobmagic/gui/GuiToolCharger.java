@@ -56,12 +56,12 @@ public class GuiToolCharger extends GuiContainer {
 	@Override
 	public void initGui() {
 		super.initGui();
-		int linkedTanks = charger.getNumActiveLinks();
-		for (int i = 0; i < linkedTanks; i++) {
+		List<Integer> linkedTanks = charger.getActiveLinks();
+		for (int i = 0; i < linkedTanks.size(); i++) {
 			if (i < 2)
-				buttonList.add(new GuiButton(i, (guiLeft + under2Offset + 1) + (i * 23), guiTop + 63, 15, 10, ""));
+				buttonList.add(new GuiButton(linkedTanks.get(i), (guiLeft + under2Offset + 1) + (i * 23), guiTop + 63, 15, 10, ""));
 			else
-				buttonList.add(new GuiButton(i, (guiLeft + over2Offset + 1) + (i * 23), guiTop + 63, 15, 10, ""));
+				buttonList.add(new GuiButton(linkedTanks.get(i), (guiLeft + over2Offset + 1) + (i * 23), guiTop + 63, 15, 10, ""));
 		}
 		buttonList.add(new GuiButton(100, guiLeft + 81, guiTop + 70, 15, 10, ""));
 
@@ -74,8 +74,8 @@ public class GuiToolCharger extends GuiContainer {
 
 		drawTexturedModalRect(guiLeft, guiTop, 0, 0, xSize, ySize);
 
-		int linkedTanks = charger.getNumActiveLinks();
-		for (int i = 0; i < linkedTanks; i++) {
+		List<Integer> linkedTanks = charger.getActiveLinks();
+		for (int i = 0; i < linkedTanks.size(); i++) {
 			if (i < 2)
 				drawTexturedModalRect((guiLeft + under2Offset) + (i * 23), guiTop + 12, 176, 0, 16, 50);
 			else
@@ -85,7 +85,7 @@ public class GuiToolCharger extends GuiContainer {
 		drawFluid(linkedTanks);
 
 		Minecraft.getMinecraft().getTextureManager().bindTexture(texture);
-		for (int i = 0; i < linkedTanks; i++) {
+		for (int i = 0; i < linkedTanks.size(); i++) {
 			if (i < 2)
 				drawTexturedModalRect((guiLeft + under2Offset + 1) + (i * 23), guiTop + 12, 176, 52, 11, 50);
 			else
@@ -163,17 +163,16 @@ public class GuiToolCharger extends GuiContainer {
 		t.draw();
 	}
 
-	private void drawFluid(int TankCount) {
+	private void drawFluid(List<Integer> Tanks) {
 		Minecraft.getMinecraft().getTextureManager().bindTexture(TextureMap.locationBlocksTexture);
 		int offsetTop = guiTop + 13;
 		int offsetBottom = guiTop + 12 + 50;
 		Tessellator t = Tessellator.instance;
 		t.startDrawingQuads();
-		int j = 0;
-		for (int i = 0; j < TankCount && i < charger.tanks.length; i++) {
-			TileEssenceTank tank = charger.getTank(i);
+		for (int i = 0; i < Tanks.size(); i++) {
+			TileEssenceTank tank = charger.getTank(Tanks.get(i));
 			if (tank != null) {
-				double liquidHeight = charger.getScaledFluidAmount(i, 50);
+				double liquidHeight = charger.getScaledFluidAmount(Tanks.get(i), 50);
 				if (liquidHeight > 0) {
 					FluidStack fluid = tank.tank.getFluid();
 					if (fluid.getFluid().getIcon() != null) {
@@ -185,20 +184,19 @@ public class GuiToolCharger extends GuiContainer {
 
 						int offsetSide;
 
-						if (j < 2) {
-							offsetSide = guiLeft + under2Offset + 1 + (j * 23);
+						if (i < 2) {
+							offsetSide = guiLeft + under2Offset + 1 + (i * 23);
 							t.addVertexWithUV(offsetSide, offsetBottom - liquidHeight, zLevel, maxU, maxV);
 							t.addVertexWithUV(offsetSide, offsetBottom, zLevel, maxU, minV);
 							t.addVertexWithUV(offsetSide + 14, offsetBottom, zLevel, minU, minV);
 							t.addVertexWithUV(offsetSide + 14, offsetBottom - liquidHeight, zLevel, minU, maxV);
 						} else {
-							offsetSide = guiLeft + over2Offset + 1 + (j * 23);
+							offsetSide = guiLeft + over2Offset + 1 + (i * 23);
 							t.addVertexWithUV(offsetSide, offsetBottom - liquidHeight, zLevel, maxU, maxV);
 							t.addVertexWithUV(offsetSide, offsetBottom, zLevel, maxU, minV);
 							t.addVertexWithUV(offsetSide + 14, offsetBottom, zLevel, minU, minV);
 							t.addVertexWithUV(offsetSide + 14, offsetBottom - liquidHeight, zLevel, minU, maxV);
 						}
-						j++;
 					}
 				}
 			}
@@ -222,8 +220,8 @@ public class GuiToolCharger extends GuiContainer {
 		int k = (this.width - this.xSize) / 2; // X asis on GUI
 		int l = (this.height - this.ySize) / 2; // Y asis on GUI
 
-		int linkedTanks = charger.getNumActiveLinks();
-		for (int i = 0; i < linkedTanks; i++) {
+		List<Integer> linkedTanks = charger.getActiveLinks();
+		for (int i = 0; i < linkedTanks.size(); i++) {
 			if (i < 2) {
 				// drawTexturedModalRect((guiLeft + 8) + (i * 23), guiTop + 12,
 				// 176, 0, 16, 50);
@@ -240,7 +238,7 @@ public class GuiToolCharger extends GuiContainer {
 
 			if (mouseX > boxX && mouseX < boxX + sizeX) {
 				if (mouseY > boxY && mouseY < boxY + sizeY) {
-					FluidStack fluid = charger.getFluid(i);
+					FluidStack fluid = charger.getFluid(linkedTanks.get(i));
 					if (fluid != null) {
 						List list = new ArrayList();
 						list.add(fluid.getFluid().getLocalizedName(fluid) + ": " + fluid.amount + "mb");

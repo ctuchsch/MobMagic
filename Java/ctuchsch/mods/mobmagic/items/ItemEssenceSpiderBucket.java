@@ -10,6 +10,7 @@ public class ItemEssenceSpiderBucket extends ItemBucket {
 	public ItemEssenceSpiderBucket(Block full){
 		super(full);
 		this.setCreativeTab(MobMagic.tabCustom);
+		this.setMaxStackSize(1);
 	}
 
 }

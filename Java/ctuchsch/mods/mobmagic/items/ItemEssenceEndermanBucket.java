@@ -10,6 +10,7 @@ public class ItemEssenceEndermanBucket extends ItemBucket {
 	public ItemEssenceEndermanBucket(Block full){
 		super(full);
 		this.setCreativeTab(MobMagic.tabCustom);
+		this.setMaxStackSize(1);
 	}
 
 }
