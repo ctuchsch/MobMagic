@@ -9,6 +9,7 @@ public class ItemMagicDelinker extends Item {
 	public ItemMagicDelinker() {
 		super();
 		setCreativeTab(MobMagic.tabCustom);
+		setMaxStackSize(1);
 	}
 	
 	@Override

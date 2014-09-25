@@ -68,7 +68,7 @@ public class TileToolCharger extends TileMobMagicBase implements ISidedInventory
 			processingSlot = nbt.getInteger("ProcessingSlot");
 			if (nbt.hasKey("ProcessingTicks"))
 				processingTicks = nbt.getInteger("ProcessingTicks");
-			if(nbt.hasKey("ProcessingSpeed"))
+			if (nbt.hasKey("ProcessingSpeed"))
 				ProcessingSpeed = nbt.getInteger("ProcessingSpeed");
 		}
 
@@ -137,9 +137,9 @@ public class TileToolCharger extends TileMobMagicBase implements ISidedInventory
 			this.itemEntity = null;
 		this.markDirty();
 	}
-	
+
 	@Override
-	public void updateEntity() {
+	public void updateEntity() {		
 		if (itemEntity != null)
 			itemEntity.age++;
 		if (processingSlot != -1) {
@@ -268,11 +268,8 @@ public class TileToolCharger extends TileMobMagicBase implements ISidedInventory
 	}
 
 	public void clearTanks(World world, EntityPlayer player) {
-		for (int i = 0; i < this.MAX_TANKS; i++) {
-			tanks[i] = null;
-		}
+		clearProcessingSlots();
 		ChatUtils.printMessageToPlayer("All links cleared.", world, player);
-		this.markDirty();
 	}
 
 	@Override
@@ -391,6 +388,10 @@ public class TileToolCharger extends TileMobMagicBase implements ISidedInventory
 		for (int i = 0; i < fluidSlots.length; i++) {
 			fluidSlots[i] = -1;
 		}
+		for (int i = 0; i < tanks.length; i++) {
+			tanks[i] = null;
+		}
+		markDirty();
 	}
 
 	public TileEssenceTank getCraftingSlotTank(int slot) {
@@ -399,10 +400,12 @@ public class TileToolCharger extends TileMobMagicBase implements ISidedInventory
 			if (index != -1) {
 				if (index < tanks.length) {
 					Location loc = tanks[index];
-					TileEntity testEntity = worldObj.getTileEntity(loc.x, loc.y, loc.z);
-					if (testEntity != null) {
-						if (testEntity instanceof TileEssenceTank)
-							return (TileEssenceTank) testEntity;
+					if (loc != null) {
+						TileEntity testEntity = worldObj.getTileEntity(loc.x, loc.y, loc.z);
+						if (testEntity != null) {
+							if (testEntity instanceof TileEssenceTank)
+								return (TileEssenceTank) testEntity;
+						}
 					}
 				}
 			}
@@ -523,7 +526,6 @@ public class TileToolCharger extends TileMobMagicBase implements ISidedInventory
 		}
 		return -1;
 	}
-
 
 	public void startProcessing() {
 		InfusionRecipie r = getCraftingResult();
