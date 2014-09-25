@@ -1,23 +1,20 @@
 package ctuchsch.mods.mobmagic.blocks;
 
+import net.minecraft.block.BlockContainer;
+import net.minecraft.block.material.Material;
+import net.minecraft.client.renderer.texture.IIconRegister;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
+import net.minecraft.tileentity.TileEntity;
+import net.minecraft.world.IBlockAccess;
+import net.minecraft.world.World;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import ctuchsch.mods.mobmagic.MobMagic;
 import ctuchsch.mods.mobmagic.items.ItemMagicDelinker;
 import ctuchsch.mods.mobmagic.items.ItemMagicLinker;
 import ctuchsch.mods.mobmagic.tileentities.TileToolCharger;
-import net.minecraft.block.BlockContainer;
-import net.minecraft.block.material.Material;
-import net.minecraft.client.renderer.texture.IIconRegister;
-import net.minecraft.creativetab.CreativeTabs;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Items;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.ChatComponentText;
-import net.minecraft.world.IBlockAccess;
-import net.minecraft.world.World;
 
 public class BlockToolCharger extends BlockContainer {
 

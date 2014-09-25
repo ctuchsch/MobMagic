@@ -3,7 +3,6 @@ package ctuchsch.mods.mobmagic.items.crafting;
 import net.minecraft.item.ItemStack;
 import cpw.mods.fml.common.registry.GameRegistry;
 import ctuchsch.mods.mobmagic.MobMagic;
-import ctuchsch.mods.mobmagic.items.ItemStarshineCore;
 
 public class SmeltingRecipes {
 

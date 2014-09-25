@@ -51,6 +51,7 @@ import ctuchsch.mods.mobmagic.items.ItemFossil;
 import ctuchsch.mods.mobmagic.items.ItemInfusionFrame;
 import ctuchsch.mods.mobmagic.items.ItemInfusionPedestal;
 import ctuchsch.mods.mobmagic.items.ItemLinkingCore;
+import ctuchsch.mods.mobmagic.items.ItemMachineChassis;
 import ctuchsch.mods.mobmagic.items.ItemMagicDelinker;
 import ctuchsch.mods.mobmagic.items.ItemMagicLinker;
 import ctuchsch.mods.mobmagic.items.ItemMobWand;
@@ -117,6 +118,7 @@ public class MobMagic {
 	public static Item itemInfusionFrame;
 	public static Item itemInfusionPedestal;
 	public static Item itemLinkingCore;
+	public static Item itemMachineChassis;
 
 
 	
@@ -216,6 +218,9 @@ public class MobMagic {
 		
 		itemLinkingCore = new ItemLinkingCore().setUnlocalizedName("linkingcore").setTextureName(this.MODID+":linkingcore");
 		GameRegistry.registerItem(itemLinkingCore, "itemlinkingcore");
+		
+		itemMachineChassis = new ItemMachineChassis().setUnlocalizedName("machinechassis").setTextureName(this.MODID+":machinechassis");
+		GameRegistry.registerItem(itemMachineChassis, "itemmachinechassis");
 	}
 
 	private void createAndRegisterBlocks() {

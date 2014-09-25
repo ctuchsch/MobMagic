@@ -1,11 +1,11 @@
 package ctuchsch.mods.mobmagic.items.crafting;
 
-import java.util.List;
 import java.util.ArrayList;
+import java.util.List;
 
-import ctuchsch.mods.mobmagic.tileentities.TileToolCharger;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fluids.FluidStack;
+import ctuchsch.mods.mobmagic.tileentities.TileToolCharger;
 
 public class InfusionCraftingHelper {
 	private static List<InfusionRecipie> infusionRecipies = new ArrayList<InfusionRecipie>();

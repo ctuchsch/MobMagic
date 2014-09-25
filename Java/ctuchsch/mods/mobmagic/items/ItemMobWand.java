@@ -1,21 +1,16 @@
 package ctuchsch.mods.mobmagic.items;
 
-import org.lwjgl.input.Keyboard;
-
+import net.minecraft.block.Block;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
+import net.minecraft.world.World;
+import net.minecraftforge.fluids.FluidStack;
 import ctuchsch.mods.mobmagic.MobMagic;
 import ctuchsch.mods.mobmagic.blocks.BlockEssenceTank;
 import ctuchsch.mods.mobmagic.entity.EntityProjectileCreeper;
 import ctuchsch.mods.mobmagic.entity.EntityProjectileEnderman;
 import ctuchsch.mods.mobmagic.tileentities.TileEssenceTank;
-import net.minecraft.block.Block;
-import net.minecraft.creativetab.CreativeTabs;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.projectile.EntitySnowball;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.MathHelper;
-import net.minecraft.world.World;
-import net.minecraftforge.fluids.FluidStack;
 
 public class ItemMobWand extends Item {
 	private final int CreeperCost = 700;

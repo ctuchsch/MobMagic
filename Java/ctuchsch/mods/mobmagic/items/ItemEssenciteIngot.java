@@ -1,8 +1,7 @@
 package ctuchsch.mods.mobmagic.items;
 
-import ctuchsch.mods.mobmagic.MobMagic;
-import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
+import ctuchsch.mods.mobmagic.MobMagic;
 
 public class ItemEssenciteIngot extends Item {
 	

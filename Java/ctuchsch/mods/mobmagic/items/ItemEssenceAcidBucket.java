@@ -1,9 +1,8 @@
 package ctuchsch.mods.mobmagic.items;
 
-import ctuchsch.mods.mobmagic.MobMagic;
 import net.minecraft.block.Block;
-import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.ItemBucket;
+import ctuchsch.mods.mobmagic.MobMagic;
 
 public class ItemEssenceAcidBucket extends ItemBucket {
 	

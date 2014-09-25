@@ -41,6 +41,7 @@ item.essencitestrut.name=Essencite Strut
 item.infusionframe.name=Infusion Frame
 item.infusionpedestal.name=Infusion Pedestal
 item.linkingcore.name=Linking Core
+item.machinechassis.name=Machine Chassis
 
 //Creative Tab
 itemGroup.MobMagic=Mob Magic

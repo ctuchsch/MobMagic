@@ -1,20 +1,16 @@
 package ctuchsch.mods.mobmagic.items;
 
-import ctuchsch.mods.mobmagic.CommonProxy;
-import ctuchsch.mods.mobmagic.MobMagic;
-import ctuchsch.mods.mobmagic.tileentities.TileEssenceTank;
-import ctuchsch.mods.mobmagic.utils.ChatUtils;
-import ctuchsch.mods.mobmagic.utils.Location;
-import net.minecraft.client.Minecraft;
-import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
+import ctuchsch.mods.mobmagic.MobMagic;
+import ctuchsch.mods.mobmagic.tileentities.TileEssenceTank;
+import ctuchsch.mods.mobmagic.utils.ChatUtils;
+import ctuchsch.mods.mobmagic.utils.Location;
 
 public class ItemMagicLinker extends Item {
 	public Location linkedLocation;

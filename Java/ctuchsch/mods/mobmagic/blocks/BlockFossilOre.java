@@ -2,11 +2,10 @@ package ctuchsch.mods.mobmagic.blocks;
 
 import java.util.Random;
 
-import ctuchsch.mods.mobmagic.MobMagic;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
-import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
+import ctuchsch.mods.mobmagic.MobMagic;
 
 public class BlockFossilOre extends Block {
 

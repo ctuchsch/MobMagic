@@ -1,9 +1,8 @@
 package ctuchsch.mods.mobmagic.blocks;
 
-import ctuchsch.mods.mobmagic.MobMagic;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
-import net.minecraft.creativetab.CreativeTabs;
+import ctuchsch.mods.mobmagic.MobMagic;
 
 public class BlockEssenciteOre extends Block {
 

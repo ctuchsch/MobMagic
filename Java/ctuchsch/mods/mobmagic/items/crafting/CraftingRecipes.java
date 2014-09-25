@@ -46,7 +46,7 @@ public class CraftingRecipes {
 				"x x",
 				'x', MobMagic.itemEssenciteIngot);
 		
-		//Essence Infuser Frame
+		//Infusion Frame
 		GameRegistry.addRecipe(new ItemStack(MobMagic.itemInfusionFrame),
 				"xox",
 				"ooo",
@@ -84,6 +84,15 @@ public class CraftingRecipes {
 				'x', MobMagic.itemMagicLinker,
 				'y', MobMagic.itemMagicDelinker,
 				'o', MobMagic.itemFossil);
+		
+		//Machine Chassis
+		GameRegistry.addRecipe(new ItemStack(MobMagic.itemMachineChassis),
+				"xox",
+				"o o",
+				"xox",
+				'x', MobMagic.itemEssenciteStrut,
+				'o', MobMagic.itemEssencitePanel);
+		
 		
 		//SHAPELESS RECIPES----
 		
