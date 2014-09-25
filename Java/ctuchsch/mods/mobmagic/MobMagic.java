@@ -23,6 +23,7 @@ import cpw.mods.fml.common.registry.EntityRegistry;
 import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import ctuchsch.mods.mobmagic.blocks.BlockCrystalFurnaceCharger;
 import ctuchsch.mods.mobmagic.blocks.BlockEssenceAcid;
 import ctuchsch.mods.mobmagic.blocks.BlockEssenceCreeper;
 import ctuchsch.mods.mobmagic.blocks.BlockEssenceEnderman;
@@ -101,6 +102,7 @@ public class MobMagic {
 	public static Block blockFossilOre;
 	public static Block blockStarshineOre;
 	public static Block blockToolCharger;
+	public static Block blockCrystalFurnaceCharger;
 	public static Item bucketEssenceEnderman;
 	public static Item itemMobWand;
 	public static Item entityProjectileCreeper;
@@ -257,6 +259,9 @@ public class MobMagic {
 		
 		blockToolCharger = new BlockToolCharger().setBlockName("blocktoolcharger");
 		GameRegistry.registerBlock(blockToolCharger, "blocktoolcharger");
+		
+		blockCrystalFurnaceCharger = new BlockCrystalFurnaceCharger().setBlockName("blockcrystalfurnacecharger");
+		GameRegistry.registerBlock(blockCrystalFurnaceCharger, "blockcrystalfurnacecharger");
 		
 		
 	}
