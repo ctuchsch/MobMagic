@@ -61,6 +61,7 @@ import ctuchsch.mods.mobmagic.items.ItemStarshineCrystal;
 import ctuchsch.mods.mobmagic.items.crafting.CraftingRecipes;
 import ctuchsch.mods.mobmagic.items.crafting.SmeltingRecipes;
 import ctuchsch.mods.mobmagic.messages.MessageInfuserGuiButton;
+import ctuchsch.mods.mobmagic.tileentities.TileCrystalFurnaceCharger;
 import ctuchsch.mods.mobmagic.tileentities.TileEssenceTank;
 import ctuchsch.mods.mobmagic.tileentities.TileToolCharger;
 
@@ -79,6 +80,7 @@ public class MobMagic {
 	private static int modGuiIndex = 0;
 	public static final int GUI_MOB_WAND = modGuiIndex++;
 	public static final int GUI_MOB_TOOLCHARGER = modGuiIndex++;
+	public static final int GUI_MOB_CrystalFurnaceCharger = modGuiIndex++;
 	
 	private static int entityIndex = 0;
 	public static final int ENTITY_INDEX_ESSENCE_CREEPER = entityIndex++;
@@ -102,6 +104,7 @@ public class MobMagic {
 	public static Block blockFossilOre;
 	public static Block blockStarshineOre;
 	public static Block blockToolCharger;
+	public static Block blockCrystalFurnaceChargerActive;
 	public static Block blockCrystalFurnaceCharger;
 	public static Item bucketEssenceEnderman;
 	public static Item itemMobWand;
@@ -150,6 +153,7 @@ public class MobMagic {
 		EntityRegistry.registerModEntity(EntityProjectileEnderman.class, "ProjectileEssenceEnderman", ENTITY_INDEX_ESSENCE_ENDERMAN, this.instance, 64, 10, true);
 		GameRegistry.registerTileEntity(TileEssenceTank.class, "tileessencetank");
 		GameRegistry.registerTileEntity(TileToolCharger.class, "tiletoolcharger");
+		GameRegistry.registerTileEntity(TileCrystalFurnaceCharger.class, "tilecrystalfurnacecharger");
 	}
 
 	private void createAndRegisterMisc() {
@@ -260,9 +264,11 @@ public class MobMagic {
 		blockToolCharger = new BlockToolCharger().setBlockName("blocktoolcharger");
 		GameRegistry.registerBlock(blockToolCharger, "blocktoolcharger");
 		
-		blockCrystalFurnaceCharger = new BlockCrystalFurnaceCharger().setBlockName("blockcrystalfurnacecharger");
+		blockCrystalFurnaceCharger = new BlockCrystalFurnaceCharger(false).setBlockName("blockcrystalfurnacecharger");
 		GameRegistry.registerBlock(blockCrystalFurnaceCharger, "blockcrystalfurnacecharger");
 		
+		blockCrystalFurnaceChargerActive = new BlockCrystalFurnaceCharger(true).setBlockName("blockcrystalfurnacechargeractive");
+		GameRegistry.registerBlock(blockCrystalFurnaceChargerActive, "blockcrystalfurnacechargeractive");		
 		
 	}
 

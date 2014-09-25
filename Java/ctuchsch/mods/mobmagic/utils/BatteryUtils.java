@@ -4,30 +4,36 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 
-public class BatteryUtils extends Item {
+public class BatteryUtils {
 
 	
-	public int getCapacity(ItemStack item){
-		return getMaxDamage();
+	public static int getCapacity(ItemStack item){
+		return item.getMaxDamage();
 	}
 	
-	public int getCurrentPower(ItemStack item){
+	public static int getCurrentPower(ItemStack item){
 		return item.getMaxDamage() - item.getItemDamage();
 	}
 	
-	public ItemStack drainPower(ItemStack item, int amountDrained, EntityPlayer player) {
+	public static ItemStack drainPower(ItemStack item, int amountDrained, EntityPlayer player) {
 		
-		if (this.getCurrentPower(item) >= amountDrained){
+		if (getCurrentPower(item) >= amountDrained){
 			item.damageItem(amountDrained, player);
 		}
 		return item;
 	}
 	
-	public ItemStack addPower(ItemStack item, int amountCharged, EntityPlayer player) {
-		
-		amountCharged = -amountCharged;
-		item.damageItem(amountCharged, player);
+	public static ItemStack addPower(ItemStack item, int amountCharged) {	
+		int power = getCurrentPower(item);
+		if(power + amountCharged <= getCapacity(item))
+			item.setItemDamage(item.getItemDamage() - amountCharged);
+		else
+			item.setItemDamage(0);
 		return item;
 			
+	}
+	
+	public static boolean needsPower(ItemStack item) {
+		return getCurrentPower(item) != getCapacity(item);
 	}
 }

@@ -5,11 +5,14 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 import cpw.mods.fml.common.network.IGuiHandler;
 import ctuchsch.mods.mobmagic.MobMagic;
+import ctuchsch.mods.mobmagic.containers.ContainerCrystalFurnaceCharger;
 import ctuchsch.mods.mobmagic.containers.ContainerItemWand;
 import ctuchsch.mods.mobmagic.containers.ContainerToolCharger;
+import ctuchsch.mods.mobmagic.gui.GuiCrystalFurnaceCharger;
 import ctuchsch.mods.mobmagic.gui.GuiItemInventoryWand;
 import ctuchsch.mods.mobmagic.gui.GuiToolCharger;
 import ctuchsch.mods.mobmagic.items.ItemInventoryWand;
+import ctuchsch.mods.mobmagic.tileentities.TileCrystalFurnaceCharger;
 import ctuchsch.mods.mobmagic.tileentities.TileToolCharger;
 
 public class GuiHandler implements IGuiHandler {
@@ -29,8 +32,13 @@ public class GuiHandler implements IGuiHandler {
 				if (entity instanceof TileToolCharger)
 					return new ContainerToolCharger(player.inventory, (TileToolCharger)entity);
 			}
-		}	
-		
+			
+			if(guiId == MobMagic.GUI_MOB_CrystalFurnaceCharger){
+				if(entity instanceof TileCrystalFurnaceCharger)
+					return new ContainerCrystalFurnaceCharger(player.inventory, (TileCrystalFurnaceCharger)entity);
+			}
+		}
+						
 		return null;
 	}
 
@@ -47,6 +55,10 @@ public class GuiHandler implements IGuiHandler {
 			if (guiId == MobMagic.GUI_MOB_TOOLCHARGER) {
 				if (entity instanceof TileToolCharger)
 					return new GuiToolCharger(player.inventory, (TileToolCharger) entity);
+			}
+			if(guiId == MobMagic.GUI_MOB_CrystalFurnaceCharger) {
+				if(entity instanceof TileCrystalFurnaceCharger)
+					return new GuiCrystalFurnaceCharger(player.inventory, (TileCrystalFurnaceCharger)entity);
 			}
 		}
 		return null;
