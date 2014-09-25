@@ -56,6 +56,7 @@ public class TileEssenceTank extends TileEntity {
 	@Override
 	public void markDirty() {
 		super.markDirty();
-		worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
+		if(worldObj != null)
+			worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
 	}
 }
