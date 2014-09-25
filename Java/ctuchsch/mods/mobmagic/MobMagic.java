@@ -253,6 +253,7 @@ public class MobMagic {
 		blockToolCharger = new BlockToolCharger().setBlockName("blocktoolcharger");
 		GameRegistry.registerBlock(blockToolCharger, "blocktoolcharger");
 		
+		
 	}
 
 	private void createAndRegisterFluids() {
