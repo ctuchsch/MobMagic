@@ -14,7 +14,7 @@ import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.FluidTank;
 import net.minecraftforge.fluids.IFluidTank;
 
-public class TileEssenceTank extends TileEntity {
+public class TileEssenceTank extends TileMobMagicBase {
 	private String localizedName;
 	private final int INV_SIZE = 1;
 	private final int TANK_SIZE = 16000;
@@ -36,27 +36,8 @@ public class TileEssenceTank extends TileEntity {
 		super.writeToNBT(compound);
 		tank.writeToNBT(compound);
 	}
-
-	@Override
-	public Packet getDescriptionPacket() {
-		NBTTagCompound nbtTag = new NBTTagCompound();
-		this.writeToNBT(nbtTag);
-		return new S35PacketUpdateTileEntity(this.xCoord, this.yCoord, this.zCoord, 1, nbtTag);
-	}
-
-	@Override
-	public void onDataPacket(NetworkManager net, S35PacketUpdateTileEntity packet) {
-		readFromNBT(packet.func_148857_g());
-	}
 	
 	public double getScaledFluidLevel(int segments) {
 		return tank.getFluidAmount() * segments / TANK_SIZE;
-	}
-	
-	@Override
-	public void markDirty() {
-		super.markDirty();
-		if(worldObj != null)
-			worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
 	}
 }

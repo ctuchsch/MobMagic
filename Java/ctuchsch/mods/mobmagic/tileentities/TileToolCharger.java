@@ -33,7 +33,7 @@ import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.FluidTankInfo;
 import net.minecraftforge.fluids.IFluidTank;
 
-public class TileToolCharger extends TileEntity implements ISidedInventory {
+public class TileToolCharger extends TileMobMagicBase implements ISidedInventory {
 	private String localizedName;
 	private static final double MAX_LINK_DIST = 100D;
 	private static final int MAX_TANKS = 4;
@@ -137,19 +137,7 @@ public class TileToolCharger extends TileEntity implements ISidedInventory {
 			this.itemEntity = null;
 		this.markDirty();
 	}
-
-	@Override
-	public Packet getDescriptionPacket() {
-		NBTTagCompound nbtTag = new NBTTagCompound();
-		this.writeToNBT(nbtTag);
-		return new S35PacketUpdateTileEntity(this.xCoord, this.yCoord, this.zCoord, 1, nbtTag);
-	}
-
-	@Override
-	public void onDataPacket(NetworkManager net, S35PacketUpdateTileEntity packet) {
-		this.readFromNBT(packet.func_148857_g());
-	}
-
+	
 	@Override
 	public void updateEntity() {
 		if (itemEntity != null)
@@ -536,11 +524,6 @@ public class TileToolCharger extends TileEntity implements ISidedInventory {
 		return -1;
 	}
 
-	@Override
-	public void markDirty() {
-		super.markDirty();
-		worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
-	}
 
 	public void startProcessing() {
 		InfusionRecipie r = getCraftingResult();

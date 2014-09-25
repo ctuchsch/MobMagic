@@ -26,21 +26,18 @@ import net.minecraft.network.Packet;
 import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
 
-public class TileCrystalFurnaceCharger extends TileEntity implements ISidedInventory {
+public class TileCrystalFurnaceCharger extends TileCrystalGeneraterBase implements ISidedInventory {
 	private String localizedName;
 	private static final int MAX_SLOTS = 2;
 	private static final int[] slotsTop = new int[] { 0, 1 };
 	private static final int[] slotsBottom = new int[] { 0, 1 };
-	private static final int[] slotsSides = new int[] { 0, 1 };
-	private ItemStack[] slots = new ItemStack[2];
-	private int chargePacketSize = 8;
+	private static final int[] slotsSides = new int[] { 0, 1 };	
 
 	public int burnTime;
 	public int currentItemBurnTime;
-	public int guiSpeed = 60;
-
+	
 	public TileCrystalFurnaceCharger() {
-		super();
+		super(MAX_SLOTS,8);
 	}
 
 	@Override
@@ -81,30 +78,7 @@ public class TileCrystalFurnaceCharger extends TileEntity implements ISidedInven
 		nbtTag.setTag("Items", list);
 	}
 
-	@Override
-	public Packet getDescriptionPacket() {
-		NBTTagCompound nbtTag = new NBTTagCompound();
-		this.writeToNBT(nbtTag);
-		return new S35PacketUpdateTileEntity(this.xCoord, this.yCoord, this.zCoord, 1, nbtTag);
-	}
 
-	@Override
-	public void onDataPacket(NetworkManager net, S35PacketUpdateTileEntity packet) {
-		this.readFromNBT(packet.func_148857_g());
-	}
-
-	private boolean needsEnergy() {
-		if (slots[0] != null && CrystalBatteryBase.canBeCharged(slots[0])) {
-			return CrystalBatteryBase.needsPower(slots[0]);
-		}
-		return false;
-	}
-
-	private void addPower() {
-		if (slots[0] != null && CrystalBatteryBase.canBeCharged(slots[0])) {
-			CrystalBatteryBase.addPower(slots[0], this.chargePacketSize);
-		}
-	}
 
 	@Override
 	public void updateEntity() {
@@ -114,7 +88,7 @@ public class TileCrystalFurnaceCharger extends TileEntity implements ISidedInven
 			--this.burnTime;
 		if (!this.worldObj.isRemote) {
 			if ((this.burnTime != 0 || this.slots[1] != null) && this.slots[0] != null) {
-				if (this.burnTime == 0 && needsEnergy()) {
+				if (this.burnTime == 0 && needsEnergy(0)) {
 					this.currentItemBurnTime = this.burnTime = getItemBurnTime(this.slots[1]);
 
 					if (this.burnTime > 0) {
@@ -127,8 +101,8 @@ public class TileCrystalFurnaceCharger extends TileEntity implements ISidedInven
 					}
 				}
 
-				if (needsEnergy() && isBurning()) {
-					addPower();
+				if (needsEnergy(0) && isBurning()) {
+					addPower(0);
 				}
 			}
 		}
@@ -300,12 +274,6 @@ public class TileCrystalFurnaceCharger extends TileEntity implements ISidedInven
 	@Override
 	public boolean canExtractItem(int slot, ItemStack item, int side) {
 		return slot == 0;
-	}
-
-	@Override
-	public void markDirty() {
-		super.markDirty();
-		worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
 	}
 
 	public int getGuiPosScaled(int segments) {
