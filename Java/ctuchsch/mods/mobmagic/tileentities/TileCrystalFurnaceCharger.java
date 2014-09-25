@@ -4,9 +4,9 @@ import cpw.mods.fml.common.gameevent.PlayerEvent.ItemCraftedEvent;
 import cpw.mods.fml.common.registry.GameRegistry;
 import ctuchsch.mods.mobmagic.MobMagic;
 import ctuchsch.mods.mobmagic.blocks.BlockCrystalFurnaceCharger;
+import ctuchsch.mods.mobmagic.items.CrystalBatteryBase;
 import ctuchsch.mods.mobmagic.items.ItemStarshineCore;
 import ctuchsch.mods.mobmagic.items.ItemStarshineCrystal;
-import ctuchsch.mods.mobmagic.utils.BatteryUtils;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.player.EntityPlayer;
@@ -29,18 +29,19 @@ import net.minecraft.tileentity.TileEntity;
 public class TileCrystalFurnaceCharger extends TileEntity implements ISidedInventory {
 	private String localizedName;
 	private static final int MAX_SLOTS = 2;
-	private static final int[] slotsTop = new int[] { 1 };
-	private static final int[] slotsBottom = new int[] { 1 };
-	private static final int[] slotsSides = new int[] { 0 };
+	private static final int[] slotsTop = new int[] { 0, 1 };
+	private static final int[] slotsBottom = new int[] { 0, 1 };
+	private static final int[] slotsSides = new int[] { 0, 1 };
 	private ItemStack[] slots = new ItemStack[2];
 	private int chargePacketSize = 8;
-	
 
 	public int burnTime;
 	public int currentItemBurnTime;
 	public int guiSpeed = 60;
-	
-	public TileCrystalFurnaceCharger() { super();}
+
+	public TileCrystalFurnaceCharger() {
+		super();
+	}
 
 	@Override
 	public void readFromNBT(NBTTagCompound nbtTag) {
@@ -56,15 +57,15 @@ public class TileCrystalFurnaceCharger extends TileEntity implements ISidedInven
 			if (b >= 0 && b < this.slots.length)
 				this.slots[b] = ItemStack.loadItemStackFromNBT(compound);
 		}
-		
-		this.burnTime = (int)nbtTag.getInteger("BurnTime");
-		this.currentItemBurnTime = (int)nbtTag.getInteger("CurrentItemBurnTime");
+
+		this.burnTime = (int) nbtTag.getInteger("BurnTime");
+		this.currentItemBurnTime = (int) nbtTag.getInteger("CurrentItemBurnTime");
 	}
 
 	@Override
 	public void writeToNBT(NBTTagCompound nbtTag) {
 		super.writeToNBT(nbtTag);
-		nbtTag.setInteger("BurnTime",this.burnTime);
+		nbtTag.setInteger("BurnTime", this.burnTime);
 		nbtTag.setInteger("CurrentItemBurnTime", this.currentItemBurnTime);
 
 		NBTTagList list = new NBTTagList();
@@ -79,7 +80,7 @@ public class TileCrystalFurnaceCharger extends TileEntity implements ISidedInven
 		}
 		nbtTag.setTag("Items", list);
 	}
-	
+
 	@Override
 	public Packet getDescriptionPacket() {
 		NBTTagCompound nbtTag = new NBTTagCompound();
@@ -93,15 +94,15 @@ public class TileCrystalFurnaceCharger extends TileEntity implements ISidedInven
 	}
 
 	private boolean needsEnergy() {
-		if (slots[0] != null && slots[0].getItem() instanceof ItemStarshineCore) {
-			return BatteryUtils.needsPower(slots[0]);
+		if (slots[0] != null && CrystalBatteryBase.canBeCharged(slots[0])) {
+			return CrystalBatteryBase.needsPower(slots[0]);
 		}
 		return false;
 	}
-	
+
 	private void addPower() {
-		if (slots[0] != null && slots[0].getItem() instanceof ItemStarshineCore) {			
-			BatteryUtils.addPower(slots[0], this.chargePacketSize);
+		if (slots[0] != null && CrystalBatteryBase.canBeCharged(slots[0])) {
+			CrystalBatteryBase.addPower(slots[0], this.chargePacketSize);
 		}
 	}
 
@@ -111,11 +112,11 @@ public class TileCrystalFurnaceCharger extends TileEntity implements ISidedInven
 		boolean burning = isBurning();
 		if (burning)
 			--this.burnTime;
-		if (!this.worldObj.isRemote) {				
+		if (!this.worldObj.isRemote) {
 			if ((this.burnTime != 0 || this.slots[1] != null) && this.slots[0] != null) {
-				if (this.burnTime == 0 && needsEnergy()) {					
+				if (this.burnTime == 0 && needsEnergy()) {
 					this.currentItemBurnTime = this.burnTime = getItemBurnTime(this.slots[1]);
-					
+
 					if (this.burnTime > 0) {
 						saveState = true;
 						if (this.slots[1] != null) {
@@ -125,8 +126,8 @@ public class TileCrystalFurnaceCharger extends TileEntity implements ISidedInven
 						}
 					}
 				}
-				
-				if(needsEnergy() && isBurning()) {
+
+				if (needsEnergy() && isBurning()) {
 					addPower();
 				}
 			}
@@ -137,10 +138,8 @@ public class TileCrystalFurnaceCharger extends TileEntity implements ISidedInven
 			BlockCrystalFurnaceCharger.updateBlockState(isBurning(), worldObj, xCoord, yCoord, zCoord);
 		}
 
-		if (saveState) {
+		if (saveState)
 			this.markDirty();
-		System.out.println("saveState");	
-		}
 	}
 
 	public boolean isBurning() {
@@ -157,35 +156,35 @@ public class TileCrystalFurnaceCharger extends TileEntity implements ISidedInven
 				Block block = Block.getBlockFromItem(item);
 
 				if (block == Blocks.wooden_slab) {
-					return 150;
+					return 30;
 				}
 
 				if (block.getMaterial() == Material.wood) {
-					return 300;
+					return 60;
 				}
 
 				if (block == Blocks.coal_block) {
-					return 14400;
+					return 2880;
 				}
 			}
 
 			if (item instanceof ItemTool && ((ItemTool) item).getToolMaterialName().equals("WOOD"))
-				return 200;
+				return 40;
 			if (item instanceof ItemSword && ((ItemSword) item).getToolMaterialName().equals("WOOD"))
-				return 200;
+				return 40;
 			if (item instanceof ItemHoe && ((ItemHoe) item).getToolMaterialName().equals("WOOD"))
-				return 200;
+				return 40;
 			if (item == Items.stick)
-				return 100;
+				return 20;
 			if (item == Items.coal)
-				return 1600;
+				return 320;
 			if (item == Items.lava_bucket)
-				return 2400;
+				return 480;
 			if (item == Item.getItemFromBlock(Blocks.sapling))
-				return 100;
+				return 20;
 			if (item == Items.blaze_rod)
-				return 2400;
-			return GameRegistry.getFuelValue(itemStack);
+				return 480;
+			return (int) Math.floor(GameRegistry.getFuelValue(itemStack) * .2D);
 		}
 	}
 
@@ -231,11 +230,9 @@ public class TileCrystalFurnaceCharger extends TileEntity implements ISidedInven
 	@Override
 	public void setInventorySlotContents(int slot, ItemStack item) {
 		this.slots[slot] = item;
-
 		if (item != null && item.stackSize > this.getInventoryStackLimit()) {
 			item.stackSize = this.getInventoryStackLimit();
 		}
-
 	}
 
 	@Override
@@ -281,11 +278,9 @@ public class TileCrystalFurnaceCharger extends TileEntity implements ISidedInven
 	@Override
 	public boolean isItemValidForSlot(int slot, ItemStack item) {
 		if (slot == 1)
-			isItemStackFuel(item);
-		else if (slot == 0) {
-			if (item.getItem() instanceof ItemStarshineCore)
-				return true;
-		}
+			return isItemStackFuel(item);
+		if (slot == 0) 
+		return CrystalBatteryBase.canBeCharged(item);
 		return false;
 	}
 
@@ -296,23 +291,26 @@ public class TileCrystalFurnaceCharger extends TileEntity implements ISidedInven
 
 	@Override
 	public boolean canInsertItem(int slot, ItemStack item, int side) {
+		if (slot == 0)
+			return slots[0] == null && this.isItemValidForSlot(slot, item);
+
 		return this.isItemValidForSlot(slot, item);
 	}
 
 	@Override
 	public boolean canExtractItem(int slot, ItemStack item, int side) {
-		return this.isItemValidForSlot(slot, item);
+		return slot == 0;
 	}
-	
+
 	@Override
 	public void markDirty() {
 		super.markDirty();
 		worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
 	}
-	
-	public int getGuiPosScaled(int segments) {		
-		 //int i = this.currentItemBurnTime - this.burnTime;
-		 //return (i % this.guiSpeed) * segments / this.guiSpeed;
-		return (this.currentItemBurnTime - this.burnTime) * segments / this.currentItemBurnTime ;
+
+	public int getGuiPosScaled(int segments) {
+		// int i = this.currentItemBurnTime - this.burnTime;
+		// return (i % this.guiSpeed) * segments / this.guiSpeed;
+		return (this.currentItemBurnTime - this.burnTime) * segments / this.currentItemBurnTime;
 	}
 }

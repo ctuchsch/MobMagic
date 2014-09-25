@@ -8,6 +8,7 @@ import net.minecraft.inventory.Container;
 import net.minecraft.inventory.ICrafting;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
+import ctuchsch.mods.mobmagic.slots.CrystalPowerSlot;
 import ctuchsch.mods.mobmagic.slots.WandSlot;
 import ctuchsch.mods.mobmagic.tileentities.TileCrystalFurnaceCharger;
 import ctuchsch.mods.mobmagic.tileentities.TileToolCharger;
@@ -21,7 +22,7 @@ public class ContainerCrystalFurnaceCharger extends Container {
 	public ContainerCrystalFurnaceCharger(InventoryPlayer playerInventory, TileCrystalFurnaceCharger charger) {
 		this.charger = charger;
 		
-		this.addSlotToContainer(new Slot(charger, 0, 80, 10));
+		this.addSlotToContainer(new CrystalPowerSlot(charger, 0, 80, 10));
 		this.addSlotToContainer(new Slot(charger, 1, 80, 58));
 		
 		for (int i = 0; i < 3; i++) {

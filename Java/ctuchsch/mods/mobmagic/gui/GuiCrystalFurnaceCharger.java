@@ -32,12 +32,12 @@ public class GuiCrystalFurnaceCharger extends GuiContainer {
 	public static final ResourceLocation texture = new ResourceLocation(MobMagic.MODID,
 			"textures/gui/CrystalFurnaceChargerGUI.png");
 	private static final int batteryXOffset = 82;
-	private static final int batteryYOffsetMax = 50; // bottom
+	private static final int batteryYOffsetMax = 51; // bottom
 	private static final int batteryYOffsetMin = 33; // bottom
 	private static final int batteryTextureOffsetX = 176;
-	private static final int batteryTextureOffsetY = 68;
+	private static final int batteryTextureOffsetY = 67;
 	private static final int batWidth = 11;
-	private static final int batHeight = 18;
+	private static final int batHeight = 19;
 	
 	TileCrystalFurnaceCharger charger;
 
